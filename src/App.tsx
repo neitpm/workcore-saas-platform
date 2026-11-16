@@ -3,12 +3,10 @@ import { PlatformTenantsTab } from './components/PlatformTenantsTab';
 import { MasterCategoriesTab } from './components/MasterCategoriesTab';
 import { SystemSecurityTab } from './components/SystemSecurityTab';
 import { SystemIntegrationTab } from './components/SystemIntegrationTab';
-import { usePlatformAdminStore } from './store/platformAdminStore';
 
 export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'tenants' | 'categories' | 'security' | 'integrations'>('tenants');
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'info' | 'warning' | 'error' } | null>(null);
-  const { companies } = usePlatformAdminStore();
 
   const triggerToast = (msg: string, type: 'success' | 'info' | 'warning' | 'error' = 'info') => {
     setToast({ msg, type });
@@ -16,30 +14,30 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col flex-1 min-h-screen bg-slate-50 relative overflow-hidden font-sans">
+    <div className="flex flex-col flex-1 min-h-screen bg-slate-50 relative overflow-hidden font-sans text-slate-800">
       {/* Top Header Bar synchronized với WorkCore Client */}
       <header className="bg-white border-b border-slate-200 pl-4 pr-6 h-12 flex items-center justify-between shadow-2xs shrink-0">
         <div className="flex items-center gap-3">
-          <h2 className="page-title text-base md:text-lg font-extrabold text-slate-900 border-l-4 border-primary pl-2 uppercase tracking-wide">
+          <h2 className="page-title text-base md:text-lg font-extrabold text-slate-900 border-l-4 border-blue-800 pl-2 uppercase tracking-wide">
             CÀI ĐẶT HỆ THỐNG
           </h2>
-          <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-100 text-primary border border-blue-200">
+          <span className="text-[10.5px] font-bold px-2.5 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-200">
             WORKCORE SAAS PLATFORM
           </span>
         </div>
         <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
           <span className="w-2 h-2 rounded bg-emerald-500 animate-pulse"></span>
-          <span>Platform Super Admin</span>
+          <span className="text-slate-700 font-bold">Platform Super Admin</span>
         </div>
       </header>
 
-      {/* Main SaaS Settings Layout (Left Nav + Right Content) y hệt thiết kế chuẩn của WorkCore */}
+      {/* Main SaaS Settings Layout (Left Nav + Right Content) */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Settings Sidebar */}
         <aside className="w-60 md:w-64 bg-white border-r border-slate-200 p-3 flex flex-col justify-between shrink-0 overflow-y-auto custom-scrollbar">
           <div className="space-y-4">
             <div>
-              <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-1.5">
+              <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider px-3 mb-1.5">
                 Quản trị nền tảng SaaS
               </div>
               <nav className="space-y-1">
@@ -48,12 +46,12 @@ export const App: React.FC = () => {
                   onClick={() => setActiveTab('tenants')}
                   className={`w-full flex items-center gap-2.5 px-3 py-2 rounded text-xs font-bold transition-all text-left cursor-pointer ${
                     activeTab === 'tenants'
-                      ? 'bg-blue-50 text-primary border border-blue-200/80 shadow-2xs'
-                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                      ? 'bg-blue-50 text-blue-800 border border-blue-200 shadow-2xs'
+                      : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
                   }`}
                 >
-                  <span className="material-symbols-outlined text-lg">corporate_fare</span>
-                  <span>Công ty & Gói dịch vụ</span>
+                  <span className="material-symbols-outlined text-lg text-blue-800">corporate_fare</span>
+                  <span className="text-slate-900">Công ty & Gói dịch vụ</span>
                 </button>
 
                 <button
@@ -61,12 +59,12 @@ export const App: React.FC = () => {
                   onClick={() => setActiveTab('categories')}
                   className={`w-full flex items-center gap-2.5 px-3 py-2 rounded text-xs font-bold transition-all text-left cursor-pointer ${
                     activeTab === 'categories'
-                      ? 'bg-blue-50 text-primary border border-blue-200/80 shadow-2xs'
-                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                      ? 'bg-blue-50 text-blue-800 border border-blue-200 shadow-2xs'
+                      : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
                   }`}
                 >
-                  <span className="material-symbols-outlined text-lg">category</span>
-                  <span>Danh mục chuẩn hệ thống</span>
+                  <span className="material-symbols-outlined text-lg text-blue-800">category</span>
+                  <span className="text-slate-900">Danh mục chuẩn hệ thống</span>
                 </button>
 
                 <button
@@ -74,12 +72,12 @@ export const App: React.FC = () => {
                   onClick={() => setActiveTab('security')}
                   className={`w-full flex items-center gap-2.5 px-3 py-2 rounded text-xs font-bold transition-all text-left cursor-pointer ${
                     activeTab === 'security'
-                      ? 'bg-blue-50 text-primary border border-blue-200/80 shadow-2xs'
-                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                      ? 'bg-blue-50 text-blue-800 border border-blue-200 shadow-2xs'
+                      : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
                   }`}
                 >
-                  <span className="material-symbols-outlined text-lg">security</span>
-                  <span>Chính sách Bảo mật</span>
+                  <span className="material-symbols-outlined text-lg text-blue-800">security</span>
+                  <span className="text-slate-900">Chính sách Bảo mật</span>
                 </button>
 
                 <button
@@ -87,12 +85,12 @@ export const App: React.FC = () => {
                   onClick={() => setActiveTab('integrations')}
                   className={`w-full flex items-center gap-2.5 px-3 py-2 rounded text-xs font-bold transition-all text-left cursor-pointer ${
                     activeTab === 'integrations'
-                      ? 'bg-blue-50 text-primary border border-blue-200/80 shadow-2xs'
-                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                      ? 'bg-blue-50 text-blue-800 border border-blue-200 shadow-2xs'
+                      : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
                   }`}
                 >
-                  <span className="material-symbols-outlined text-lg">hub</span>
-                  <span>Tích hợp & Cảnh báo</span>
+                  <span className="material-symbols-outlined text-lg text-blue-800">hub</span>
+                  <span className="text-slate-900">Tích hợp & Cảnh báo</span>
                 </button>
               </nav>
             </div>
@@ -126,14 +124,14 @@ export const App: React.FC = () => {
       {/* Toast Notification */}
       {toast && (
         <div
-          className={`fixed bottom-6 right-6 z-50 px-4 py-3 rounded shadow-lg border text-sm font-semibold flex items-center gap-2.5 transition-all animate-bounce ${
+          className={`fixed bottom-6 right-6 z-50 px-4 py-3 rounded shadow-lg border text-sm font-semibold flex items-center gap-2.5 transition-all ${
             toast.type === 'success'
               ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
               : toast.type === 'warning'
               ? 'bg-amber-50 text-amber-800 border-amber-200'
               : toast.type === 'error'
               ? 'bg-rose-50 text-rose-800 border-rose-200'
-              : 'bg-blue-50 text-primary border-blue-200'
+              : 'bg-blue-50 text-blue-800 border-blue-200'
           }`}
         >
           <span className="material-symbols-outlined text-base">
