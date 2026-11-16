@@ -2,22 +2,756 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
+@layer base {
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+    display: inline-block;
+    line-height: 1;
+  }
+
+  /* Ẩn badge Netlify / Netlify Feedback Drawer */
+  [data-netlify-deploy-id],
+  .netlify-badge,
+  #netlify-feedback-drawer,
+  iframe[src*="netlify"],
+  div[class*="netlify"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  button, .cursor-pointer, [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
-/* Custom scrollbar */
+/* Custom Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
+::-webkit-scrollbar:horizontal {
+  height: 6px;
+}
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 9999px;
+  background: #cbd5e1;
+  border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #94a3b8;
 }
+
+/* Excel HTML Preview Table Styling */
+.excel-viewer-table {
+  font-family: Calibri, Aptos, Arial, sans-serif;
+}
+.excel-viewer-table table {
+  border-collapse: collapse;
+  width: auto;
+  min-width: 100%;
+  background: #ffffff;
+  border: 1px solid #64748b;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.excel-viewer-table td,
+.excel-viewer-table th {
+  border: 1px solid #94a3b8;
+  padding: 5px 10px;
+  font-size: 11.5px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.excel-viewer-table tr:first-child td,
+.excel-viewer-table tr:first-child th,
+.excel-viewer-table tr:nth-child(2) td,
+.excel-viewer-table tr:nth-child(2) th {
+  font-weight: bold;
+  font-size: 12px;
+  color: #0f172a;
+}
+
+.always-visible-scrollbar::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+}
+.always-visible-scrollbar::-webkit-scrollbar:horizontal {
+  height: 10px !important;
+  display: block !important;
+}
+.always-visible-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #64748b #e2e8f0;
+}
+.always-visible-scrollbar::-webkit-scrollbar-track {
+  background: #e2e8f0;
+  border-radius: 6px;
+}
+.always-visible-scrollbar::-webkit-scrollbar-thumb {
+  background: #64748b;
+  border-radius: 6px;
+  border: 1.5px solid #e2e8f0;
+}
+.always-visible-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #1e293b;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 0px;
+}
+.custom-scrollbar::-webkit-scrollbar:horizontal {
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.scrollbar-hide::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+}
+.scrollbar-hide,
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* Hide Number Input Spinners (Up/Down Arrows) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+input[type="number"] {
+  -moz-appearance: textfield !important;
+  appearance: textfield !important;
+}
+
+.page-title {
+  text-transform: uppercase !important;
+  font-family: ui-sans-serif, system-ui, sans-serif !important;
+  font-size: 1.125rem !important;
+  line-height: 1 !important;
+  line-height: 2rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0 !important;
+  color: #0f172a !important;
+}
+
+/* Shared tab typography */
+.app-tab-button {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+
+.app-tab-button .material-symbols-outlined {
+  font-family: "Material Symbols Outlined" !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+}
+
+.cost-plan-compact {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.materials-page h2,
+.cost-plan-compact h1 {
+  font-weight: 800 !important;
+}
+
+/* Document tracking readability */
+.doc-tracking-page {
+  color: #243244;
+  background: #f5f7fb;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.doc-tracking-page section {
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.doc-tracking-page h1 {
+  color: #172033;
+  letter-spacing: 0;
+}
+
+.doc-tracking-page input,
+.doc-tracking-page select,
+.doc-tracking-page textarea,
+.doc-tracking-page button {
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.doc-tracking-page table {
+  font-size: 13px;
+  line-height: 1.45;
+  color: #334155;
+  background: #ffffff;
+}
+
+.doc-tracking-page thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #eef3f8 !important;
+  color: #475569 !important;
+  font-size: 12px !important;
+  letter-spacing: 0 !important;
+}
+
+.doc-tracking-page th {
+  padding: 12px 14px !important;
+  border-bottom: 1px solid #cbd5e1;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.doc-tracking-page td {
+  padding: 13px 14px !important;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: top;
+}
+
+.doc-tracking-page tbody tr:nth-child(even) {
+  background: #fbfcfe;
+}
+
+.doc-tracking-page tbody tr:hover {
+  background: #eef6ff !important;
+}
+
+.doc-tracking-page .font-mono {
+  font-family: ui-sans-serif, system-ui, sans-serif !important;
+  letter-spacing: 0;
+}
+
+.doc-tracking-page .font-extrabold,
+.doc-tracking-page .font-black {
+  font-weight: 700 !important;
+}
+
+.doc-tracking-page .text-\[10px\],
+.doc-tracking-page .text-\[11px\] {
+  font-size: 12px !important;
+}
+
+.doc-tracking-page td .text-\[10px\],
+.doc-tracking-page td .text-\[11px\] {
+  font-size: 12px !important;
+}
+
+.doc-tracking-page td span.rounded-full {
+  padding: 4px 9px !important;
+  border-radius: 6px !important;
+  font-weight: 650 !important;
+}
+
+.doc-tracking-page .text-rose-600 {
+  color: #b42318 !important;
+}
+
+.doc-tracking-page .text-emerald-700,
+.doc-tracking-page .text-emerald-600 {
+  color: #047857 !important;
+}
+
+.doc-tracking-page .text-amber-700,
+.doc-tracking-page .text-amber-600 {
+  color: #9a6700 !important;
+}
+
+.doc-tracking-page .bg-rose-50 {
+  background-color: #fff1f0 !important;
+}
+
+.doc-tracking-page .bg-emerald-50 {
+  background-color: #ecfdf5 !important;
+}
+
+.doc-tracking-page .bg-amber-50 {
+  background-color: #fffbeb !important;
+}
+
+.doc-tracking-page .custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.doc-tracking-page .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border: 2px solid #f8fafc;
+}
+
+/* Universal Highlight for Notifications and Item Selection */
+.system-row-highlighted,
+.highlighted-doc-row,
+.highlighted-task-assignment-row,
+.highlighted-task-row,
+.highlighted-leave-row,
+.highlighted-expense-row,
+.highlighted-field-log-row,
+.highlighted-material-row {
+  background-color: #fef3c7 !important; /* amber-100 */
+  border-left: 5px solid #f59e0b !important; /* amber-500 */
+  border-top: 1.5px solid #fcd34d !important;
+  border-bottom: 1.5px solid #fcd34d !important;
+  box-shadow: inset 0 0 12px rgba(245, 158, 11, 0.18) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+.system-row-highlighted td,
+.highlighted-doc-row td,
+.highlighted-task-assignment-row td,
+.highlighted-task-row td,
+.highlighted-leave-row td,
+.highlighted-expense-row td,
+.highlighted-field-log-row td,
+.highlighted-material-row td {
+  background-color: #fef3c7 !important;
+  color: #78350f !important;
+}
+
+.highlighted-task-card {
+  outline: 3px solid #3b82f6 !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.25) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+
+
+/* Material inventory readability */
+.materials-page {
+  color: #243244;
+  background: #f5f7fb;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.materials-page section {
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.materials-page h2 {
+  color: #172033;
+  font-weight: 750;
+  letter-spacing: 0;
+}
+
+.materials-page input,
+.materials-page select,
+.materials-page textarea,
+.materials-page button {
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.materials-page table {
+  font-size: 13px;
+  line-height: 1.45;
+  color: #334155;
+  background: #ffffff;
+}
+
+.materials-page thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #eef3f8 !important;
+  color: #475569 !important;
+  font-size: 12px !important;
+  letter-spacing: 0 !important;
+}
+
+.materials-page th {
+  padding: 12px 14px !important;
+  border-bottom: 1px solid #cbd5e1;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.materials-page td {
+  padding: 13px 14px !important;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: top;
+}
+
+.materials-page tbody tr:nth-child(even) {
+  background: #fbfcfe;
+}
+
+.materials-page tbody tr:hover {
+  background: #eef6ff !important;
+}
+
+.materials-page .font-mono {
+  font-family: ui-sans-serif, system-ui, sans-serif !important;
+  letter-spacing: 0;
+}
+
+.materials-page .font-extrabold,
+.materials-page .font-black {
+  font-weight: 700 !important;
+}
+
+.materials-page .text-\[10px\],
+.materials-page .text-\[11px\] {
+  font-size: 12px !important;
+}
+
+.materials-page td .text-\[10px\],
+.materials-page td .text-\[11px\] {
+  font-size: 12px !important;
+}
+
+.materials-page td span.rounded-full {
+  padding: 4px 9px !important;
+  border-radius: 6px !important;
+  font-weight: 650 !important;
+}
+
+.materials-page .text-rose-600 {
+  color: #b42318 !important;
+}
+
+.materials-page .text-emerald-700,
+.materials-page .text-emerald-600 {
+  color: #047857 !important;
+}
+
+.materials-page .text-amber-700,
+.materials-page .text-amber-600 {
+  color: #9a6700 !important;
+}
+
+.materials-page .bg-rose-50 {
+  background-color: #fff1f0 !important;
+}
+
+.materials-page .bg-emerald-50 {
+  background-color: #ecfdf5 !important;
+}
+
+.materials-page .bg-amber-50 {
+  background-color: #fffbeb !important;
+}
+
+.materials-page .custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.materials-page .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border: 2px solid #f8fafc;
+}
+
+
+
+/* Cost plan compact table cells */
+.cost-plan-compact table {
+  font-size: 12px;
+}
+
+.cost-plan-compact th,
+.cost-plan-compact td {
+  line-height: 1.25;
+}
+
+.cost-plan-compact td,
+.cost-plan-compact th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Project management list */
+.project-management-page {
+  color: #223044;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.project-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+.project-card {
+  cursor: pointer;
+  border: 1px solid #d8e0eb;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 11px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.project-card:hover,
+.project-card:focus-visible {
+  border-color: #a9c2e8;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.07);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.project-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.project-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.project-title {
+  flex-grow: 1;
+  white-space: normal;
+  word-break: break-word;
+  margin-top: 1px;
+  overflow: hidden;
+  color: #111827;
+  display: -webkit-box;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.25;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.project-status {
+  border-radius: 6px;
+  border: 1px solid transparent;
+  padding: 3px 6px;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.project-status--active {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.project-status--completed {
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+  color: #047857;
+}
+
+.project-status--hold {
+  border-color: #fde68a;
+  background: #fffbeb;
+  color: #92400e;
+}
+
+.project-delete-btn {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: #dc2626;
+  transition: background-color 0.16s ease, color 0.16s ease;
+}
+
+.project-delete-btn:hover {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.project-delete-btn .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.project-meta {
+  display: grid;
+  gap: 5px;
+  margin-top: 9px;
+}
+
+.project-meta div {
+  display: grid;
+  grid-template-columns: 68px minmax(0, 1fr);
+  align-items: start;
+  gap: 7px;
+}
+
+.project-meta dt {
+  color: #64748b;
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+.project-meta dd {
+  min-width: 0;
+  color: #334155;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0;
+  text-align: right;
+  word-break: break-word;
+}
+
+.project-progress {
+  margin-top: 9px;
+}
+
+.project-progress__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.project-progress__bar {
+  height: 5px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e8eef6;
+  margin-top: 5px;
+}
+
+.project-progress__bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #2563eb;
+}
+
+.project-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.project-stats span {
+  overflow: hidden;
+  border-radius: 6px;
+  background: #f5f7fb;
+  color: #475569;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.2;
+  padding: 5px 4px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+
+.drag-region { -webkit-app-region: drag; }
+.no-drag-region { -webkit-app-region: no-drag !important; }
+
+.electron-drag { -webkit-app-region: drag; }
+.electron-no-drag { -webkit-app-region: no-drag !important; }
+
+/* Ensure header buttons, tabs, dropdowns, inputs are always clickable and never intercepted by window drag */
+button, input, select, textarea, a, .clickable-tab, [role="button"], .no-drag-region * {
+  -webkit-app-region: no-drag !important;
+}
+/* Mobile Responsive Overrides - Mobile Only (does NOT affect desktop) */
+@media (max-width: 768px) {
+  /* Prevent scrolling overflow on body */
+  html, body {
+    margin: 0;
+    padding: 0 !important;
+    overflow-x: hidden;
+  }
+
+  /* Hide fixed sidebar desktop element completely on mobile, but keep drawer aside visible */
+  aside.fixed.left-0:not(.mobile-drawer-aside) {
+    display: none !important;
+  }
+
+  /* Main content container takes 100% full screen width without desktop margin-left */
+  .layout-content-wrapper {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+  }
+
+  /* Shift top headers down on mobile screens */
+  main > div > section.border-b:first-child,
+  main > div > header:first-child {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+    padding: 0.75rem 0.75rem !important;
+  }
+
+  main > div > section.border-b:first-child > div,
+  main > div > header:first-child > div {
+    width: 100% !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+  }
+
+  /* Page title padding and font size on mobile */
+  .page-title {
+    font-size: 16px !important;
+  }
+
+  /* Compact grid columns & container padding on mobile screen */
+  .p-6, .p-4 {
+    padding: 0.75rem !important;
+  }
+
+  /* Single column cards on mobile */
+  .grid-cols-1 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Hide clock on mobile screens to save top space */
+  .realtime-clock-container {
+    display: none !important;
+  }
+
+  /* Table mobile optimizations: ensure content column has exact width for horizontal scroll */
+  .task-management-screen table th:nth-child(2),
+  .task-management-screen table td:nth-child(2) {
+    min-width: 220px !important;
+    max-width: 220px !important;
+    width: 220px !important;
+    overflow: hidden !important;
+  }
+
+  /* Hide detailed dropdown filter containers on mobile, keep only search bar */
+  .task-management-screen .flex.flex-wrap.items-center.gap-2 > div:not(.relative),
+  .task-management-screen .flex.flex-wrap.items-center.gap-2 > span {
+    display: none !important;
+  }
+}
+
