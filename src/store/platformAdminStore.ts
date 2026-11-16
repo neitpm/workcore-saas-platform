@@ -165,6 +165,7 @@ export const usePlatformAdminStore = create<PlatformAdminStoreState>((set, get) 
           code: comp.code.trim().toUpperCase(),
           name: comp.name.trim(),
           slogan: comp.slogan?.trim() || null,
+          logo_url: comp.logo?.trim() || null,
           plan: comp.plan,
           status: comp.status,
           admin_email: comp.adminEmail.trim().toLowerCase(),
@@ -241,6 +242,7 @@ export const usePlatformAdminStore = create<PlatformAdminStoreState>((set, get) 
       const dbPatch: any = {};
       if (patch.name !== undefined) dbPatch.name = patch.name;
       if (patch.slogan !== undefined) dbPatch.slogan = patch.slogan;
+      if (patch.logo !== undefined) dbPatch.logo_url = patch.logo;
       if (patch.plan !== undefined) dbPatch.plan = patch.plan;
       if (patch.status !== undefined) dbPatch.status = patch.status;
       if (patch.adminEmail !== undefined) dbPatch.admin_email = patch.adminEmail;

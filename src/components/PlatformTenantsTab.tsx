@@ -21,6 +21,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
   const [code, setCode] = useState('');
   const [name, setName] = useState('');
   const [slogan, setSlogan] = useState('');
+  const [logo, setLogo] = useState('');
   const [plan, setPlan] = useState<CompanyTenant['plan']>('standard');
   const [status, setStatus] = useState<CompanyTenant['status']>('active');
   const [adminEmail, setAdminEmail] = useState('');
@@ -36,6 +37,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
     setCode('');
     setName('');
     setSlogan('');
+    setLogo('');
     setPlan('standard');
     setStatus('active');
     setAdminEmail('');
@@ -53,6 +55,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
     setCode(comp.code);
     setName(comp.name);
     setSlogan(comp.slogan || '');
+    setLogo(comp.logo || '');
     setPlan(comp.plan);
     setStatus(comp.status);
     setAdminEmail(comp.adminEmail);
@@ -78,6 +81,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
           code: code.trim().toUpperCase(),
           name: name.trim(),
           slogan: slogan.trim(),
+          logo: logo.trim(),
           plan,
           status,
           adminEmail: adminEmail.trim(),
@@ -94,6 +98,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
           code: code.trim().toUpperCase(),
           name: name.trim(),
           slogan: slogan.trim(),
+          logo: logo.trim(),
           plan,
           status,
           adminEmail: adminEmail.trim(),
@@ -302,6 +307,45 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                 placeholder="Khẩu hiệu hiển thị dưới logo"
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none focus:bg-white focus:border-primary"
               />
+            </div>
+            <div>
+              <label className="font-bold text-slate-700 block mb-1">Logo URL / Hình ảnh</label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={logo}
+                  onChange={(e) => setLogo(e.target.value)}
+                  placeholder="https://... hoặc /logo.png"
+                  className="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none focus:bg-white focus:border-primary text-xs"
+                />
+                {logo ? (
+                  <div className="w-9 h-9 border border-slate-200 rounded bg-white flex items-center justify-center p-0.5 shrink-0 overflow-hidden">
+                    <img src={logo} alt="Preview" className="max-w-full max-h-full object-contain" onError={(e) => ((e.target as any).style.display = 'none')} />
+                  </div>
+                ) : (
+                  <label className="px-2.5 py-2 border border-slate-300 text-slate-700 bg-white hover:bg-slate-50 rounded text-xs font-bold transition-colors cursor-pointer shrink-0 flex items-center gap-1">
+                    <span className="material-symbols-outlined text-sm">upload</span>
+                    <span>Tải ảnh</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            if (typeof reader.result === 'string') {
+                              setLogo(reader.result);
+                            }
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                    />
+                  </label>
+                )}
+              </div>
             </div>
             <div>
               <label className="font-bold text-slate-700 block mb-1">Gói dịch vụ</label>
