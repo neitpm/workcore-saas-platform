@@ -322,41 +322,53 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
               />
             </div>
             <div>
-              <label className="font-bold text-slate-700 block mb-1">Logo URL / Hình ảnh</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="font-bold text-slate-700">Logo công ty / Hình ảnh</label>
+                {logo && (
+                  <button
+                    type="button"
+                    onClick={() => setLogo('')}
+                    className="text-[11px] font-bold text-rose-600 hover:text-rose-700 cursor-pointer flex items-center gap-0.5"
+                    title="Xóa logo này để chọn lại ảnh khác"
+                  >
+                    <span className="material-symbols-outlined text-xs">close</span>
+                    <span>Đổi ảnh khác</span>
+                  </button>
+                )}
+              </div>
               <div className="flex items-center gap-2">
                 <input
                   type="text"
                   value={logo}
                   onChange={(e) => setLogo(e.target.value)}
-                  placeholder="https://... hoặc /logo.png"
+                  placeholder="Dán link ảnh https://... hoặc bấm nút Tải ảnh"
                   className="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none focus:bg-white focus:border-primary text-xs"
                 />
-                {logo ? (
-                  <div className="w-9 h-9 border border-slate-200 rounded bg-white flex items-center justify-center p-0.5 shrink-0 overflow-hidden">
+                <label className="px-3 py-2 border border-slate-300 text-slate-700 bg-white hover:bg-slate-50 rounded text-xs font-bold transition-colors cursor-pointer shrink-0 flex items-center gap-1 shadow-2xs">
+                  <span className="material-symbols-outlined text-sm text-blue-700">cloud_upload</span>
+                  <span>{logo ? 'Thay ảnh' : 'Tải ảnh'}</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          if (typeof reader.result === 'string') {
+                            setLogo(reader.result);
+                          }
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                  />
+                </label>
+                {logo && (
+                  <div className="w-10 h-10 border border-slate-300 rounded bg-white flex items-center justify-center p-0.5 shrink-0 overflow-hidden shadow-2xs">
                     <img src={logo} alt="Preview" className="max-w-full max-h-full object-contain" onError={(e) => ((e.target as any).style.display = 'none')} />
                   </div>
-                ) : (
-                  <label className="px-2.5 py-2 border border-slate-300 text-slate-700 bg-white hover:bg-slate-50 rounded text-xs font-bold transition-colors cursor-pointer shrink-0 flex items-center gap-1">
-                    <span className="material-symbols-outlined text-sm">upload</span>
-                    <span>Tải ảnh</span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          const reader = new FileReader();
-                          reader.onloadend = () => {
-                            if (typeof reader.result === 'string') {
-                              setLogo(reader.result);
-                            }
-                          };
-                          reader.readAsDataURL(file);
-                        }
-                      }}
-                    />
-                  </label>
                 )}
               </div>
             </div>
