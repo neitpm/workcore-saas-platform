@@ -199,8 +199,21 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                 return (
                   <tr key={comp.id} className="hover:bg-slate-50/80 transition-colors">
                     <td className="p-3.5">
-                      <div className="font-bold text-slate-900">{comp.name}</div>
-                      <div className="text-[11px] text-slate-400 font-mono">Mã: {comp.code}</div>
+                      <div className="flex items-center gap-2.5">
+                        {comp.logo ? (
+                          <div className="w-8 h-8 rounded border border-slate-200 bg-white p-0.5 flex items-center justify-center shrink-0 overflow-hidden">
+                            <img src={comp.logo} alt={comp.name} className="max-w-full max-h-full object-contain" onError={(e) => ((e.target as any).style.display = 'none')} />
+                          </div>
+                        ) : (
+                          <div className="w-8 h-8 rounded bg-slate-100 border border-slate-200 text-slate-500 font-bold text-xs flex items-center justify-center shrink-0">
+                            {comp.code.slice(0, 2)}
+                          </div>
+                        )}
+                        <div>
+                          <div className="font-bold text-slate-900">{comp.name}</div>
+                          <div className="text-[11px] text-slate-400 font-mono">Mã: {comp.code}</div>
+                        </div>
+                      </div>
                     </td>
                     <td className="p-3.5">
                       <span className="px-2.5 py-1 rounded text-[11px] font-extrabold uppercase bg-indigo-50 text-indigo-700 border border-indigo-200">
