@@ -158,18 +158,18 @@ export const Modal: React.FC<ModalProps> = ({
                 Bạn có chắc chắn muốn thoát? Dữ liệu đang nhập có thể bị mất.
               </p>
             </div>
-            <div className="flex items-center justify-center gap-3 pt-2 border-t border-slate-100">
+            <div className="flex items-center justify-center gap-3 pt-2 border-t border-slate-200">
               <button
                 type="button"
                 onClick={handleCancelExit}
-                className="px-4 py-2.5 rounded text-xs font-bold border border-slate-200 text-slate-700 bg-white hover:bg-slate-50 transition-colors flex-1 shadow-2xs"
+                className="px-4 py-2 rounded text-xs font-bold border border-slate-300 text-slate-700 bg-white hover:bg-slate-50 transition-colors flex-1 shadow-2xs cursor-pointer"
               >
                 Hủy
               </button>
               <button
                 type="button"
                 onClick={handleConfirmExit}
-                className="px-4 py-2.5 rounded text-xs font-bold bg-primary hover:bg-primary/90 text-white shadow-sm hover:shadow-md transition-all flex-1"
+                className="px-4 py-2 rounded text-xs font-bold bg-blue-700 hover:bg-blue-800 text-white shadow-2xs transition-all flex-1 cursor-pointer"
               >
                 Đồng ý
               </button>
