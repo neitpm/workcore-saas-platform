@@ -7,8 +7,9 @@ import {
   Users, 
   BarChart3, 
   Settings, 
-  ExternalLink,
-  ChevronRight
+  ChevronRight,
+  FolderTree,
+  BellRing
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -21,9 +22,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
     { id: 'dashboard', label: 'Tổng quan SaaS', icon: BarChart3 },
     { id: 'tenants', label: 'Quản lý Công ty (Tenants)', icon: Building2 },
     { id: 'modules', label: 'Gói & Danh mục Module', icon: Layers },
-    { id: 'subscriptions', label: 'Thuê bao & Hạn dùng', icon: CreditCard },
-    { id: 'admins', label: 'Company Admins', icon: Users },
-    { id: 'security', label: 'Bảo mật & Cấu hình', icon: ShieldCheck },
+    { id: 'categories', label: 'Danh mục chuẩn hệ thống', icon: FolderTree },
+    { id: 'security', label: 'Chính sách Bảo mật', icon: ShieldCheck },
+    { id: 'integrations', label: 'Tích hợp & Cảnh báo', icon: BellRing },
   ];
 
   return (
@@ -46,7 +47,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
         {/* Navigation */}
         <nav className="p-3 space-y-1">
           <div className="px-3 py-2 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-            Quản trị nền tảng
+            Quản trị nền tảng SaaS
           </div>
           {menuItems.map((item) => {
             const Icon = item.icon;
@@ -79,10 +80,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
             SA
           </div>
           <div className="overflow-hidden">
-            <div className="text-xs font-bold text-slate-200 truncate">Super Admin</div>
+            <div className="text-xs font-bold text-slate-200 truncate">Platform Super Admin</div>
             <div className="text-[11px] text-emerald-400 flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              Toàn quyền hệ thống
+              Toàn quyền hệ thống SaaS
             </div>
           </div>
         </div>
