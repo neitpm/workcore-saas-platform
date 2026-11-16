@@ -81,7 +81,7 @@ export const SystemIntegrationTab: React.FC<SystemIntegrationTabProps> = ({ trig
 
       <form onSubmit={handleSave} className="space-y-4">
         {/* Telegram Bot */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs p-5 space-y-4">
+        <div className="bg-white rounded border border-slate-200 shadow-2xs p-5 space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-slate-100">
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-sky-500 text-xl">send</span>
@@ -110,7 +110,7 @@ export const SystemIntegrationTab: React.FC<SystemIntegrationTabProps> = ({ trig
                   value={telegramBotToken}
                   onChange={(e) => setTelegramBotToken(e.target.value)}
                   placeholder="VD: 123456789:ABCdefGhIJKlmNoPQRstuVWXyz"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-primary font-mono"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none focus:bg-white focus:border-primary font-mono"
                 />
               </div>
 
@@ -121,7 +121,7 @@ export const SystemIntegrationTab: React.FC<SystemIntegrationTabProps> = ({ trig
                   value={telegramChatId}
                   onChange={(e) => setTelegramChatId(e.target.value)}
                   placeholder="VD: -1001234567890 hoặc 987654321"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-primary font-mono"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none focus:bg-white focus:border-primary font-mono"
                 />
               </div>
 
@@ -129,7 +129,7 @@ export const SystemIntegrationTab: React.FC<SystemIntegrationTabProps> = ({ trig
                 <button
                   type="button"
                   onClick={handleTestTelegram}
-                  className="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-200 transition-colors flex items-center gap-1.5 cursor-pointer"
+                  className="px-3.5 py-1.5 rounded text-xs font-bold bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-200 transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-sm">bolt</span>
                   <span>Gửi tin nhắn thử nghiệm</span>
@@ -140,7 +140,7 @@ export const SystemIntegrationTab: React.FC<SystemIntegrationTabProps> = ({ trig
         </div>
 
         {/* Zalo ZNS / Notification */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs p-5 space-y-4">
+        <div className="bg-white rounded border border-slate-200 shadow-2xs p-5 space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-slate-100">
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-blue-600 text-xl">chat</span>
@@ -169,7 +169,7 @@ export const SystemIntegrationTab: React.FC<SystemIntegrationTabProps> = ({ trig
                   value={zaloTemplateId}
                   onChange={(e) => setZaloTemplateId(e.target.value)}
                   placeholder="Mã template đã được Zalo duyệt"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-primary font-mono"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none focus:bg-white focus:border-primary font-mono"
                 />
               </div>
             </div>
@@ -177,14 +177,14 @@ export const SystemIntegrationTab: React.FC<SystemIntegrationTabProps> = ({ trig
         </div>
 
         {/* Sự kiện kích hoạt cảnh báo */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs p-5 space-y-3">
+        <div className="bg-white rounded border border-slate-200 shadow-2xs p-5 space-y-3">
           <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
             <span className="material-symbols-outlined text-amber-500 text-xl">notifications_active</span>
             <h2 className="text-sm font-bold text-slate-800">Sự kiện gửi cảnh báo tự động</h2>
           </div>
 
           <div className="space-y-2 text-xs">
-            <label className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-100 cursor-pointer">
+            <label className="flex items-center justify-between p-2.5 rounded bg-slate-50 border border-slate-100 cursor-pointer">
               <span className="font-semibold text-slate-800">Có yêu cầu cấp quỹ / giải ngân dự án mới</span>
               <input
                 type="checkbox"
@@ -194,7 +194,7 @@ export const SystemIntegrationTab: React.FC<SystemIntegrationTabProps> = ({ trig
               />
             </label>
 
-            <label className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-100 cursor-pointer">
+            <label className="flex items-center justify-between p-2.5 rounded bg-slate-50 border border-slate-100 cursor-pointer">
               <span className="font-semibold text-slate-800">Công việc hoặc tiến độ dự án bị trễ hạn</span>
               <input
                 type="checkbox"
@@ -204,7 +204,7 @@ export const SystemIntegrationTab: React.FC<SystemIntegrationTabProps> = ({ trig
               />
             </label>
 
-            <label className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-100 cursor-pointer">
+            <label className="flex items-center justify-between p-2.5 rounded bg-slate-50 border border-slate-100 cursor-pointer">
               <span className="font-semibold text-slate-800">Cảnh báo đăng nhập thất bại liên tiếp hoặc bất thường</span>
               <input
                 type="checkbox"
@@ -220,7 +220,7 @@ export const SystemIntegrationTab: React.FC<SystemIntegrationTabProps> = ({ trig
           <button
             type="submit"
             disabled={isSaving}
-            className="px-5 py-2.5 rounded-xl text-xs font-bold bg-primary hover:bg-blue-800 text-white transition-colors shadow-2xs flex items-center gap-1.5 cursor-pointer"
+            className="px-5 py-2.5 rounded text-xs font-bold bg-primary hover:bg-blue-800 text-white transition-colors shadow-2xs flex items-center gap-1.5 cursor-pointer"
           >
             <span className="material-symbols-outlined text-sm">save</span>
             <span>{isSaving ? 'Đang cập nhật...' : 'Lưu cấu hình tích hợp'}</span>

@@ -32,7 +32,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
       <div>
         {/* Brand */}
         <div className="p-5 border-b border-slate-800/80 flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-sky-500/20 font-extrabold text-lg">
+          <div className="w-9 h-9 rounded bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-sky-500/20 font-extrabold text-lg">
             W
           </div>
           <div>
@@ -56,7 +56,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded text-xs font-semibold transition-all cursor-pointer ${
                   isActive
                     ? 'bg-sky-600/15 text-sky-400 border border-sky-500/30 shadow-sm'
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
@@ -76,13 +76,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
       {/* Footer Info */}
       <div className="p-4 border-t border-slate-800/80 bg-slate-950/60">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-xs text-sky-400">
+          <div className="w-8 h-8 rounded bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-xs text-sky-400">
             SA
           </div>
           <div className="overflow-hidden">
             <div className="text-xs font-bold text-slate-200 truncate">Platform Super Admin</div>
             <div className="text-[11px] text-emerald-400 flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span className="w-1.5 h-1.5 rounded bg-emerald-500 animate-pulse"></span>
               Toàn quyền hệ thống SaaS
             </div>
           </div>

@@ -258,7 +258,7 @@ input[type="number"] {
   font-size: 12px !important;
 }
 
-.doc-tracking-page td span.rounded-full {
+.doc-tracking-page td span.rounded {
   padding: 4px 9px !important;
   border-radius: 6px !important;
   font-weight: 650 !important;
@@ -425,7 +425,7 @@ input[type="number"] {
   font-size: 12px !important;
 }
 
-.materials-page td span.rounded-full {
+.materials-page td span.rounded {
   padding: 4px 9px !important;
   border-radius: 6px !important;
   font-weight: 650 !important;

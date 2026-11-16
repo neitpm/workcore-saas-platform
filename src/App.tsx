@@ -23,12 +23,12 @@ export const App: React.FC = () => {
           <h2 className="page-title text-base md:text-lg font-extrabold text-slate-900 border-l-4 border-primary pl-2 uppercase tracking-wide">
             CÀI ĐẶT HỆ THỐNG
           </h2>
-          <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-blue-100 text-primary border border-blue-200">
+          <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-100 text-primary border border-blue-200">
             WORKCORE SAAS PLATFORM
           </span>
         </div>
         <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span className="w-2 h-2 rounded bg-emerald-500 animate-pulse"></span>
           <span>Platform Super Admin</span>
         </div>
       </header>
@@ -46,7 +46,7 @@ export const App: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setActiveTab('tenants')}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold transition-all text-left cursor-pointer ${
+                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded text-xs font-bold transition-all text-left cursor-pointer ${
                     activeTab === 'tenants'
                       ? 'bg-blue-50 text-primary border border-blue-200/80 shadow-2xs'
                       : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
@@ -59,7 +59,7 @@ export const App: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setActiveTab('categories')}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold transition-all text-left cursor-pointer ${
+                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded text-xs font-bold transition-all text-left cursor-pointer ${
                     activeTab === 'categories'
                       ? 'bg-blue-50 text-primary border border-blue-200/80 shadow-2xs'
                       : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
@@ -72,7 +72,7 @@ export const App: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setActiveTab('security')}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold transition-all text-left cursor-pointer ${
+                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded text-xs font-bold transition-all text-left cursor-pointer ${
                     activeTab === 'security'
                       ? 'bg-blue-50 text-primary border border-blue-200/80 shadow-2xs'
                       : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
@@ -85,7 +85,7 @@ export const App: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setActiveTab('integrations')}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold transition-all text-left cursor-pointer ${
+                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded text-xs font-bold transition-all text-left cursor-pointer ${
                     activeTab === 'integrations'
                       ? 'bg-blue-50 text-primary border border-blue-200/80 shadow-2xs'
                       : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
@@ -126,7 +126,7 @@ export const App: React.FC = () => {
       {/* Toast Notification */}
       {toast && (
         <div
-          className={`fixed bottom-6 right-6 z-50 px-4 py-3 rounded-xl shadow-lg border text-sm font-semibold flex items-center gap-2.5 transition-all animate-bounce ${
+          className={`fixed bottom-6 right-6 z-50 px-4 py-3 rounded shadow-lg border text-sm font-semibold flex items-center gap-2.5 transition-all animate-bounce ${
             toast.type === 'success'
               ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
               : toast.type === 'warning'

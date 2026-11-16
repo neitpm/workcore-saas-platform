@@ -143,7 +143,7 @@ export const TenantsManagement: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/60 p-5 rounded-2xl border border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/60 p-5 rounded border border-slate-800">
         <div>
           <h2 className="text-xl font-bold text-white flex items-center gap-2.5">
             <Building2 className="w-6 h-6 text-sky-400" />
@@ -155,7 +155,7 @@ export const TenantsManagement: React.FC = () => {
         </div>
         <button
           onClick={openCreateModal}
-          className="flex items-center gap-2 bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow-lg shadow-sky-500/20 active:scale-95 transition-all cursor-pointer self-start sm:self-auto"
+          className="flex items-center gap-2 bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white px-4 py-2.5 rounded font-bold text-xs shadow-lg shadow-sky-500/20 active:scale-95 transition-all cursor-pointer self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           Tạo Công Ty Mới
@@ -171,14 +171,14 @@ export const TenantsManagement: React.FC = () => {
             placeholder="Tìm theo tên công ty, mã tenant, email quản trị..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 transition-colors"
+            className="w-full bg-slate-900 border border-slate-800 rounded pl-10 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 transition-colors"
           />
         </div>
         <div>
           <select
             value={planFilter}
             onChange={(e) => setPlanFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-sky-500"
+            className="w-full bg-slate-900 border border-slate-800 rounded px-3 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-sky-500"
           >
             <option value="all">-- Tất cả gói cước --</option>
             <option value="trial">Dùng thử (Trial)</option>
@@ -191,7 +191,7 @@ export const TenantsManagement: React.FC = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-sky-500"
+            className="w-full bg-slate-900 border border-slate-800 rounded px-3 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-sky-500"
           >
             <option value="all">-- Tất cả trạng thái --</option>
             <option value="active">Đang hoạt động</option>
@@ -202,7 +202,7 @@ export const TenantsManagement: React.FC = () => {
       </div>
 
       {/* Companies Table */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+      <div className="bg-slate-900 border border-slate-800 rounded overflow-hidden shadow-xl">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -238,7 +238,7 @@ export const TenantsManagement: React.FC = () => {
                         </div>
                       </td>
                       <td className="py-3.5 px-4">
-                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase ${
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-extrabold uppercase ${
                           comp.plan === 'enterprise' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' :
                           comp.plan === 'professional' ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20' :
                           comp.plan === 'standard' ? 'bg-sky-500/10 text-sky-400 border border-sky-500/20' :
@@ -248,12 +248,12 @@ export const TenantsManagement: React.FC = () => {
                         </span>
                       </td>
                       <td className="py-3.5 px-4">
-                        <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold ${
+                        <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-semibold ${
                           comp.status === 'active' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
                           comp.status === 'suspended' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
                           'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                         }`}>
-                          <span className={`w-1.5 h-1.5 rounded-full ${
+                          <span className={`w-1.5 h-1.5 rounded ${
                             comp.status === 'active' ? 'bg-emerald-400' :
                             comp.status === 'suspended' ? 'bg-amber-400' : 'bg-rose-400'
                           }`}></span>
@@ -283,7 +283,7 @@ export const TenantsManagement: React.FC = () => {
                       <td className="py-3.5 px-4">
                         <button
                           onClick={() => setActiveModuleModalComp(comp)}
-                          className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-sky-400 border border-slate-700 rounded-lg text-[11px] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer"
+                          className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-sky-400 border border-slate-700 rounded text-[11px] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer"
                         >
                           <span>{assignedCount}/{modules.length} Module</span>
                           <SlidersHorizontal className="w-3 h-3" />
@@ -293,14 +293,14 @@ export const TenantsManagement: React.FC = () => {
                         <div className="flex items-center justify-end gap-1.5">
                           <button
                             onClick={() => openEditModal(comp)}
-                            className="p-1.5 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg transition-colors cursor-pointer"
+                            className="p-1.5 hover:bg-slate-800 text-slate-400 hover:text-white rounded transition-colors cursor-pointer"
                             title="Chỉnh sửa cấu hình công ty"
                           >
                             <Edit className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleDelete(comp)}
-                            className="p-1.5 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 rounded-lg transition-colors cursor-pointer"
+                            className="p-1.5 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 rounded transition-colors cursor-pointer"
                             title="Xóa công ty"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -319,7 +319,7 @@ export const TenantsManagement: React.FC = () => {
       {/* Modal Thêm / Sửa Công Ty */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl p-6">
+          <div className="bg-slate-900 border border-slate-800 rounded w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl p-6">
             <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-5">
               <h3 className="text-base font-bold text-white flex items-center gap-2">
                 <Building2 className="w-5 h-5 text-sky-400" />
@@ -346,7 +346,7 @@ export const TenantsManagement: React.FC = () => {
                     placeholder="VD: TITSMART, HOABINH, ANPHONG"
                     value={code}
                     onChange={(e) => setCode(e.target.value.toUpperCase())}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-white uppercase placeholder-slate-600 focus:outline-none focus:border-sky-500 disabled:opacity-60"
+                    className="w-full bg-slate-950 border border-slate-800 rounded px-3.5 py-2 text-xs text-white uppercase placeholder-slate-600 focus:outline-none focus:border-sky-500 disabled:opacity-60"
                   />
                 </div>
                 <div>
@@ -359,7 +359,7 @@ export const TenantsManagement: React.FC = () => {
                     placeholder="VD: Công ty Cổ phần Xây dựng ABC"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-sky-500"
+                    className="w-full bg-slate-950 border border-slate-800 rounded px-3.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-sky-500"
                   />
                 </div>
               </div>
@@ -372,7 +372,7 @@ export const TenantsManagement: React.FC = () => {
                     placeholder="VD: 0101234567"
                     value={taxCode}
                     onChange={(e) => setTaxCode(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-sky-500"
+                    className="w-full bg-slate-950 border border-slate-800 rounded px-3.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-sky-500"
                   />
                 </div>
                 <div>
@@ -382,12 +382,12 @@ export const TenantsManagement: React.FC = () => {
                     placeholder="VD: Vươn tầm cao mới"
                     value={slogan}
                     onChange={(e) => setSlogan(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-sky-500"
+                    className="w-full bg-slate-950 border border-slate-800 rounded px-3.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-sky-500"
                   />
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800/80 space-y-3">
+              <div className="p-4 rounded bg-slate-950/70 border border-slate-800/80 space-y-3">
                 <div className="text-xs font-bold text-sky-400 flex items-center gap-1.5">
                   <KeyRound className="w-4 h-4" />
                   Tài khoản Quản trị Công ty (Company Admin)
@@ -403,7 +403,7 @@ export const TenantsManagement: React.FC = () => {
                       placeholder="admin@doanhnghiep.vn"
                       value={adminEmail}
                       onChange={(e) => setAdminEmail(e.target.value)}
-                      className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-sky-500"
+                      className="w-full bg-slate-900 border border-slate-800 rounded px-3.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-sky-500"
                     />
                   </div>
                   {!editingComp && (
@@ -415,7 +415,7 @@ export const TenantsManagement: React.FC = () => {
                         type="text"
                         value={adminPassword}
                         onChange={(e) => setAdminPassword(e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500 font-mono"
+                        className="w-full bg-slate-900 border border-slate-800 rounded px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500 font-mono"
                       />
                     </div>
                   )}
@@ -426,7 +426,7 @@ export const TenantsManagement: React.FC = () => {
                       placeholder="0912 345 678"
                       value={adminPhone}
                       onChange={(e) => setAdminPhone(e.target.value)}
-                      className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-sky-500"
+                      className="w-full bg-slate-900 border border-slate-800 rounded px-3.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-sky-500"
                     />
                   </div>
                 </div>
@@ -438,7 +438,7 @@ export const TenantsManagement: React.FC = () => {
                   <select
                     value={plan}
                     onChange={(e: any) => setPlan(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
+                    className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
                   >
                     <option value="trial">Dùng thử</option>
                     <option value="standard">Tiêu chuẩn</option>
@@ -451,7 +451,7 @@ export const TenantsManagement: React.FC = () => {
                   <select
                     value={status}
                     onChange={(e: any) => setStatus(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
+                    className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
                   >
                     <option value="active">Đang kích hoạt</option>
                     <option value="suspended">Tạm khóa</option>
@@ -465,7 +465,7 @@ export const TenantsManagement: React.FC = () => {
                     min={1}
                     value={maxUsers}
                     onChange={(e) => setMaxUsers(Number(e.target.value))}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
+                    className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
                   />
                 </div>
                 <div>
@@ -475,7 +475,7 @@ export const TenantsManagement: React.FC = () => {
                     min={1}
                     value={maxStorageGb}
                     onChange={(e) => setMaxStorageGb(Number(e.target.value))}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
+                    className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
                   />
                 </div>
               </div>
@@ -487,7 +487,7 @@ export const TenantsManagement: React.FC = () => {
                     type="date"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
+                    className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
                   />
                 </div>
                 <div>
@@ -496,7 +496,7 @@ export const TenantsManagement: React.FC = () => {
                     type="date"
                     value={expiryDate}
                     onChange={(e) => setExpiryDate(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
+                    className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500"
                   />
                 </div>
               </div>
@@ -505,13 +505,13 @@ export const TenantsManagement: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
                 >
                   Hủy
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 shadow-lg shadow-sky-500/20 active:scale-95 transition-all cursor-pointer"
+                  className="px-5 py-2 rounded text-xs font-bold text-white bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 shadow-lg shadow-sky-500/20 active:scale-95 transition-all cursor-pointer"
                 >
                   {editingComp ? 'Lưu Thay Đổi' : 'Xác Nhận Tạo Công Ty'}
                 </button>
@@ -524,7 +524,7 @@ export const TenantsManagement: React.FC = () => {
       {/* Modal Bật / Tắt Module Của Công Ty */}
       {activeModuleModalComp && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-xl max-h-[85vh] overflow-y-auto shadow-2xl p-6">
+          <div className="bg-slate-900 border border-slate-800 rounded w-full max-w-xl max-h-[85vh] overflow-y-auto shadow-2xl p-6">
             <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
               <div>
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
@@ -549,7 +549,7 @@ export const TenantsManagement: React.FC = () => {
                 return (
                   <div
                     key={mod.id}
-                    className="flex items-center justify-between p-3 rounded-xl border border-slate-800 bg-slate-950/60 hover:bg-slate-800/40 transition-colors"
+                    className="flex items-center justify-between p-3 rounded border border-slate-800 bg-slate-950/60 hover:bg-slate-800/40 transition-colors"
                   >
                     <div>
                       <div className="text-xs font-bold text-slate-100 flex items-center gap-2">
@@ -570,7 +570,7 @@ export const TenantsManagement: React.FC = () => {
                         onChange={(e) => toggleCompanyModule(activeModuleModalComp.id, mod.id, e.target.checked)}
                         className="sr-only peer"
                       />
-                      <div className="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-sky-500"></div>
+                      <div className="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded after:h-4 after:w-4 after:transition-all peer-checked:bg-sky-500"></div>
                     </label>
                   </div>
                 );
@@ -581,7 +581,7 @@ export const TenantsManagement: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setActiveModuleModalComp(null)}
-                className="px-5 py-2 rounded-xl text-xs font-bold text-white bg-slate-800 hover:bg-slate-700 transition-colors cursor-pointer"
+                className="px-5 py-2 rounded text-xs font-bold text-white bg-slate-800 hover:bg-slate-700 transition-colors cursor-pointer"
               >
                 Đóng
               </button>

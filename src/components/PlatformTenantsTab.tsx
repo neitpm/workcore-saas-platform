@@ -137,7 +137,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
         <button
           type="button"
           onClick={openCreateModal}
-          className="px-4 py-2 rounded-xl text-xs font-bold bg-primary text-white hover:bg-blue-800 transition-colors shadow-2xs flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
+          className="px-4 py-2 rounded text-xs font-bold bg-primary text-white hover:bg-blue-800 transition-colors shadow-2xs flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
         >
           <span className="material-symbols-outlined text-sm">add_business</span>
           <span>Thêm công ty thuê bao</span>
@@ -145,7 +145,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
       </div>
 
       {/* Toolbar lọc */}
-      <div className="bg-white p-3 rounded-2xl border border-slate-200 shadow-2xs flex flex-wrap items-center gap-3">
+      <div className="bg-white p-3 rounded border border-slate-200 shadow-2xs flex flex-wrap items-center gap-3">
         <div className="relative flex-1 min-w-[200px]">
           <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs">search</span>
           <input
@@ -153,13 +153,13 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
             placeholder="Tìm theo tên công ty, mã, email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-8 pr-3 py-1.5 bg-slate-50 rounded-xl text-xs border border-slate-200 outline-none focus:bg-white focus:border-primary transition-all"
+            className="w-full pl-8 pr-3 py-1.5 bg-slate-50 rounded text-xs border border-slate-200 outline-none focus:bg-white focus:border-primary transition-all"
           />
         </div>
         <select
           value={selectedPlan}
           onChange={(e) => setSelectedPlan(e.target.value)}
-          className="px-3 py-1.5 bg-slate-50 rounded-xl text-xs border border-slate-200 outline-none font-bold text-slate-700 cursor-pointer"
+          className="px-3 py-1.5 bg-slate-50 rounded text-xs border border-slate-200 outline-none font-bold text-slate-700 cursor-pointer"
         >
           <option value="all">Tất cả gói dịch vụ</option>
           <option value="trial">Gói Dùng thử (Trial)</option>
@@ -170,7 +170,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
       </div>
 
       {/* Bảng danh sách công ty */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
+      <div className="bg-white rounded border border-slate-200 shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold">
@@ -194,7 +194,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                       <div className="text-[11px] text-slate-400 font-mono">Mã: {comp.code}</div>
                     </td>
                     <td className="p-3.5">
-                      <span className="px-2.5 py-1 rounded-lg text-[11px] font-extrabold uppercase bg-indigo-50 text-indigo-700 border border-indigo-200">
+                      <span className="px-2.5 py-1 rounded text-[11px] font-extrabold uppercase bg-indigo-50 text-indigo-700 border border-indigo-200">
                         {comp.plan}
                       </span>
                     </td>
@@ -213,7 +213,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                       {isExpired && <span className="text-[10px] text-rose-500 font-bold">Đã hết hạn</span>}
                     </td>
                     <td className="p-3.5">
-                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                         comp.status === 'active' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
                         comp.status === 'suspended' ? 'bg-amber-50 text-amber-700 border border-amber-200' :
                         'bg-rose-50 text-rose-700 border border-rose-200'
@@ -225,7 +225,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                       <button
                         type="button"
                         onClick={() => openEditModal(comp)}
-                        className="px-2.5 py-1 rounded-lg text-slate-600 hover:text-primary hover:bg-blue-50 transition-colors font-bold"
+                        className="px-2.5 py-1 rounded text-slate-600 hover:text-primary hover:bg-blue-50 transition-colors font-bold"
                         title="Chỉnh sửa cấu hình"
                       >
                         Sửa
@@ -234,7 +234,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                         <button
                           type="button"
                           onClick={() => handleDelete(comp)}
-                          className="px-2.5 py-1 rounded-lg text-rose-600 hover:bg-rose-50 transition-colors font-bold"
+                          className="px-2.5 py-1 rounded text-rose-600 hover:bg-rose-50 transition-colors font-bold"
                           title="Xóa công ty"
                         >
                           Xóa
@@ -275,7 +275,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                 value={code}
                 onChange={(e) => setCode(e.target.value.toUpperCase())}
                 placeholder="VD: EVN, VIETTEL, CTY-ABC"
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-primary font-mono font-bold"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none focus:bg-white focus:border-primary font-mono font-bold"
               />
             </div>
             <div>
@@ -286,7 +286,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="VD: Công ty TNHH Kỹ thuật Điện ABC"
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-primary font-bold"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none focus:bg-white focus:border-primary font-bold"
               />
             </div>
             <div>
@@ -296,7 +296,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                 value={slogan}
                 onChange={(e) => setSlogan(e.target.value)}
                 placeholder="Khẩu hiệu hiển thị dưới logo"
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-primary"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none focus:bg-white focus:border-primary"
               />
             </div>
             <div>
@@ -304,7 +304,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
               <select
                 value={plan}
                 onChange={(e) => setPlan(e.target.value as any)}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none font-bold text-slate-700"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none font-bold text-slate-700"
               >
                 <option value="trial">Dùng thử (Trial)</option>
                 <option value="standard">Tiêu chuẩn (Standard)</option>
@@ -320,7 +320,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                 value={adminEmail}
                 onChange={(e) => setAdminEmail(e.target.value)}
                 placeholder="admin@tencongty.vn"
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-primary"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none focus:bg-white focus:border-primary"
               />
             </div>
             <div>
@@ -330,7 +330,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                 value={adminPhone}
                 onChange={(e) => setAdminPhone(e.target.value)}
                 placeholder="09xx..."
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-primary"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none focus:bg-white focus:border-primary"
               />
             </div>
             <div>
@@ -341,7 +341,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                 max={1000}
                 value={maxUsers}
                 onChange={(e) => setMaxUsers(Number(e.target.value))}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-primary font-bold"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none focus:bg-white focus:border-primary font-bold"
               />
             </div>
             <div>
@@ -352,7 +352,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                 max={5000}
                 value={maxStorageGb}
                 onChange={(e) => setMaxStorageGb(Number(e.target.value))}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-primary font-bold"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none focus:bg-white focus:border-primary font-bold"
               />
             </div>
             <div>
@@ -361,7 +361,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none"
               />
             </div>
             <div>
@@ -370,7 +370,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                 type="date"
                 value={expiryDate}
                 onChange={(e) => setExpiryDate(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none font-bold text-primary"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none font-bold text-primary"
               />
             </div>
             <div className="sm:col-span-2">
@@ -415,7 +415,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Ghi chú về hợp đồng, thanh toán hoặc yêu cầu kỹ thuật riêng..."
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-primary"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none focus:bg-white focus:border-primary"
               />
             </div>
           </div>
@@ -424,13 +424,13 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer"
+              className="px-4 py-2 rounded text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer"
             >
               Hủy
             </button>
             <button
               type="submit"
-              className="px-5 py-2 rounded-xl text-xs font-bold bg-primary hover:bg-blue-800 text-white transition-colors shadow-2xs cursor-pointer flex items-center gap-1.5"
+              className="px-5 py-2 rounded text-xs font-bold bg-primary hover:bg-blue-800 text-white transition-colors shadow-2xs cursor-pointer flex items-center gap-1.5"
             >
               <span className="material-symbols-outlined text-sm">save</span>
               <span>Lưu công ty</span>
