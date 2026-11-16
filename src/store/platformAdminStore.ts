@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import { supabase } from '../lib/supabase';
 
 export interface CompanyTenant {
@@ -17,22 +16,22 @@ export interface CompanyTenant {
   startDate: string;
   expiryDate: string;
   notes?: string;
-  createdAt: string;
+  createdAt?: string;
   updatedAt?: string;
 }
 
 export interface SystemSecurityConfig {
-  sessionTimeoutMinutes: number; // Thời gian tự động đăng xuất nếu không thao tác (0: Không giới hạn)
-  minPasswordLength: number; // Độ dài mật khẩu tối thiểu
-  requireSpecialChar: boolean; // Bắt buộc ký tự đặc biệt
-  maxLoginAttempts: number; // Số lần đăng nhập sai tối đa trước khi tạm khóa
-  allowMobileAppLogin: boolean; // Cho phép đăng nhập app di động
+  sessionTimeoutMinutes: number;
+  minPasswordLength: number;
+  requireSpecialChar: boolean;
+  maxLoginAttempts: number;
+  allowMobileAppLogin: boolean;
 }
 
 export interface MasterCategoryConfig {
-  projectCategories: string[]; // Phân loại dự án
-  taskProgressStatuses: string[]; // Trạng thái công việc
-  expenseCategories: string[]; // Danh mục chi phí dự án
+  projectCategories: string[];
+  taskProgressStatuses: string[];
+  expenseCategories: string[];
 }
 
 export interface IntegrationAlertConfig {
@@ -41,9 +40,9 @@ export interface IntegrationAlertConfig {
   telegramChatId?: string;
   zaloZnsEnabled: boolean;
   zaloTemplateId?: string;
-  alertOnFundRequest: boolean; // Báo khi có đơn cấp quỹ
-  alertOnTaskOverdue: boolean; // Báo khi công việc trễ hạn
-  alertOnSecurityAnomaly: boolean; // Báo khi có đăng nhập bất thường
+  alertOnFundRequest: boolean;
+  alertOnTaskOverdue: boolean;
+  alertOnSecurityAnomaly: boolean;
 }
 
 interface PlatformAdminStoreState {
@@ -54,41 +53,20 @@ interface PlatformAdminStoreState {
   isLoading: boolean;
 
   fetchPlatformData: () => Promise<void>;
-  saveCompaniesToCloud: (companies: CompanyTenant[]) => Promise<void>;
-  addCompany: (comp: Omit<CompanyTenant, 'id' | 'createdAt'>) => Promise<CompanyTenant>;
+  addCompany: (comp: Omit<CompanyTenant, 'id' | 'createdAt'> & { adminPassword?: string }) => Promise<CompanyTenant>;
   updateCompany: (id: string, patch: Partial<CompanyTenant>) => Promise<void>;
   deleteCompany: (id: string) => Promise<void>;
-
   saveSecurityConfig: (cfg: Partial<SystemSecurityConfig>) => Promise<void>;
   saveMasterCategories: (cats: Partial<MasterCategoryConfig>) => Promise<void>;
   saveIntegrationConfig: (integ: Partial<IntegrationAlertConfig>) => Promise<void>;
 }
 
-export const DEFAULT_COMPANIES: CompanyTenant[] = [
-  {
-    id: 'comp_default_titsmart',
-    code: 'TITSMART',
-    name: 'TITSMART TECHNOLOGY',
-    slogan: 'Nâng tầm cuộc sống - Hướng đến tương lai',
-    plan: 'enterprise',
-    status: 'active',
-    adminEmail: 'admin@titsmart.vn',
-    adminPhone: '0979.888.643',
-    maxUsers: 50,
-    maxStorageGb: 100,
-    startDate: '2026-01-01',
-    expiryDate: '2027-12-31',
-    notes: 'Khách hàng mặc định / Khởi tạo hệ thống',
-    createdAt: '2026-01-01T00:00:00.000Z'
-  }
-];
-
 export const DEFAULT_SECURITY: SystemSecurityConfig = {
-  sessionTimeoutMinutes: 120,
-  minPasswordLength: 6,
-  requireSpecialChar: false,
+  sessionTimeoutMinutes: 60,
+  minPasswordLength: 8,
+  requireSpecialChar: true,
   maxLoginAttempts: 5,
-  allowMobileAppLogin: true
+  allowMobileAppLogin: true,
 };
 
 export const DEFAULT_MASTER_CATEGORIES: MasterCategoryConfig = {
@@ -99,14 +77,14 @@ export const DEFAULT_MASTER_CATEGORIES: MasterCategoryConfig = {
     'Tự động hóa & SCADA trạm',
     'Hạ tầng cơ điện M&E',
     'Phần mềm & CNTT Doanh nghiệp',
-    'Chi phí quản lý Văn phòng'
+    'Chi phí quản lý Văn phòng',
   ],
   taskProgressStatuses: [
     'Chưa thực hiện',
     'Đang triển khai',
     'Chờ kiểm tra / Nghiệm thu',
     'Đã hoàn thành',
-    'Tạm ngưng / Chậm tiến độ'
+    'Tạm ngưng / Chậm tiến độ',
   ],
   expenseCategories: [
     'Mua sắm vật tư chính',
@@ -116,8 +94,8 @@ export const DEFAULT_MASTER_CATEGORIES: MasterCategoryConfig = {
     'Chi phí lưu trú & công tác phí',
     'Tiếp khách & quan hệ đối tác',
     'Vận chuyển & logistics',
-    'Chi phí hành chính văn phòng'
-  ]
+    'Chi phí hành chính văn phòng',
+  ],
 };
 
 export const DEFAULT_INTEGRATION: IntegrationAlertConfig = {
@@ -128,117 +106,179 @@ export const DEFAULT_INTEGRATION: IntegrationAlertConfig = {
   zaloTemplateId: '',
   alertOnFundRequest: true,
   alertOnTaskOverdue: true,
-  alertOnSecurityAnomaly: true
+  alertOnSecurityAnomaly: true,
 };
 
-const STORAGE_KEY = 'titsmart-platform-admin-store';
+export const usePlatformAdminStore = create<PlatformAdminStoreState>((set, get) => ({
+  companies: [],
+  securityConfig: DEFAULT_SECURITY,
+  masterCategories: DEFAULT_MASTER_CATEGORIES,
+  integrationConfig: DEFAULT_INTEGRATION,
+  isLoading: false,
 
-export const usePlatformAdminStore = create<PlatformAdminStoreState>()(
-  persist(
-    (set, get) => ({
-      companies: DEFAULT_COMPANIES,
-      securityConfig: DEFAULT_SECURITY,
-      masterCategories: DEFAULT_MASTER_CATEGORIES,
-      integrationConfig: DEFAULT_INTEGRATION,
-      isLoading: false,
+  fetchPlatformData: async () => {
+    set({ isLoading: true });
+    try {
+      // 1. Lấy trực tiếp danh sách công ty từ bảng companies trong Database
+      const { data, error } = await supabase
+        .from('companies')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-      fetchPlatformData: async () => {
-        set({ isLoading: true });
-        try {
-          // Lấy cấu hình đa công ty từ cloud storage public
-          const { data, error } = await supabase.storage
-            .from('titsmart-images')
-            .download('platform/tenants.json');
+      if (error) throw error;
 
-          if (!error && data) {
-            const text = await data.text();
-            const json = JSON.parse(text);
-            if (json && Array.isArray(json.companies)) {
-              set({
-                companies: json.companies,
-                securityConfig: { ...DEFAULT_SECURITY, ...(json.securityConfig || {}) },
-                masterCategories: { ...DEFAULT_MASTER_CATEGORIES, ...(json.masterCategories || {}) },
-                integrationConfig: { ...DEFAULT_INTEGRATION, ...(json.integrationConfig || {}) }
-              });
-            }
-          }
-        } catch (err) {
-          console.warn('[PlatformAdminStore] fetchPlatformData fallback to local:', err);
-        } finally {
-          set({ isLoading: false });
-        }
-      },
-
-      saveCompaniesToCloud: async (companies: CompanyTenant[]) => {
-        set({ companies });
-        try {
-          const payload = {
-            companies,
-            securityConfig: get().securityConfig,
-            masterCategories: get().masterCategories,
-            integrationConfig: get().integrationConfig,
-            updatedAt: new Date().toISOString()
-          };
-          await supabase.storage.from('titsmart-images').upload(
-            'platform/tenants.json',
-            JSON.stringify(payload),
-            { contentType: 'application/json', upsert: true }
-          );
-        } catch (err) {
-          console.error('[PlatformAdminStore] saveCompaniesToCloud failed:', err);
-        }
-      },
-
-      addCompany: async (comp) => {
-        const id = `comp_${Date.now()}`;
-        const newTenant: CompanyTenant = {
-          ...comp,
-          id,
-          createdAt: new Date().toISOString()
-        };
-        const nextCompanies = [newTenant, ...get().companies];
-        await get().saveCompaniesToCloud(nextCompanies);
-        return newTenant;
-      },
-
-      updateCompany: async (id, patch) => {
-        const nextCompanies = get().companies.map(c => 
-          c.id === id ? { ...c, ...patch, updatedAt: new Date().toISOString() } : c
-        );
-        await get().saveCompaniesToCloud(nextCompanies);
-      },
-
-      deleteCompany: async (id) => {
-        const nextCompanies = get().companies.filter(c => c.id !== id);
-        await get().saveCompaniesToCloud(nextCompanies);
-      },
-
-      saveSecurityConfig: async (cfg) => {
-        const next = { ...get().securityConfig, ...cfg };
-        set({ securityConfig: next });
-        await get().saveCompaniesToCloud(get().companies);
-      },
-
-      saveMasterCategories: async (cats) => {
-        const next = { ...get().masterCategories, ...cats };
-        set({ masterCategories: next });
-        await get().saveCompaniesToCloud(get().companies);
-      },
-
-      saveIntegrationConfig: async (integ) => {
-        const next = { ...get().integrationConfig, ...integ };
-        set({ integrationConfig: next });
-        await get().saveCompaniesToCloud(get().companies);
+      if (data && Array.isArray(data)) {
+        const mapped: CompanyTenant[] = data.map((c: any) => ({
+          id: c.id,
+          code: c.code,
+          name: c.name,
+          slogan: c.slogan || '',
+          logo: c.logo_url || '',
+          plan: c.plan || 'standard',
+          status: c.status || 'active',
+          adminEmail: c.admin_email || '',
+          adminPhone: c.admin_phone || c.hotline || '',
+          maxUsers: c.max_users || 20,
+          maxStorageGb: c.max_storage_gb || 20,
+          startDate: c.start_date || new Date().toISOString().slice(0, 10),
+          expiryDate: c.expiry_date || '2030-12-31',
+          notes: c.address || '',
+          createdAt: c.created_at,
+          updatedAt: c.updated_at,
+        }));
+        set({ companies: mapped });
       }
-    }),
-    {
-      name: STORAGE_KEY,
-      partialize: (state) => ({
-        companies: state.companies,
-        securityConfig: state.securityConfig,
-        masterCategories: state.masterCategories,
-        integrationConfig: state.integrationConfig
-      })
+    } catch (err) {
+      console.error('[PlatformAdminStore] fetchPlatformData DB error:', err);
+    } finally {
+      set({ isLoading: false });
     }
-  )
-);
+  },
+
+  addCompany: async (comp) => {
+    set({ isLoading: true });
+    try {
+      // 1. Thêm công ty trực tiếp vào bảng companies trong PostgreSQL Database
+      const { data: insertedComp, error: compErr } = await supabase
+        .from('companies')
+        .insert({
+          code: comp.code.trim().toUpperCase(),
+          name: comp.name.trim(),
+          slogan: comp.slogan?.trim() || null,
+          plan: comp.plan,
+          status: comp.status,
+          admin_email: comp.adminEmail.trim().toLowerCase(),
+          admin_phone: comp.adminPhone?.trim() || null,
+          max_users: comp.maxUsers,
+          max_storage_gb: comp.maxStorageGb,
+          start_date: comp.startDate || new Date().toISOString().slice(0, 10),
+          expiry_date: comp.expiryDate || '2030-12-31',
+        })
+        .select()
+        .single();
+
+      if (compErr) throw compErr;
+
+      const newCompanyId = insertedComp.id;
+
+      // 2. Tự động gán các module chuẩn hệ thống vào bảng company_modules
+      const { data: allModules } = await supabase.from('modules').select('id');
+      if (allModules && allModules.length > 0) {
+        const moduleRows = allModules.map((m: any) => ({
+          company_id: newCompanyId,
+          module_id: m.id,
+          is_enabled: true,
+          start_date: comp.startDate || new Date().toISOString().slice(0, 10),
+          expiry_date: comp.expiryDate || '2030-12-31',
+        }));
+        await supabase.from('company_modules').insert(moduleRows);
+      }
+
+      // 3. Tự động tạo tài khoản Company Admin trong bảng engineers
+      const adminUsername = comp.adminEmail.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+      const defaultPassword = comp.adminPassword || '123456';
+
+      await supabase.from('engineers').insert({
+        company_id: newCompanyId,
+        username: adminUsername,
+        name: `Admin - ${comp.name}`,
+        email: comp.adminEmail.trim().toLowerCase(),
+        phone: comp.adminPhone || '',
+        title: 'Giám đốc / Quản trị công ty',
+        role: 'admin',
+        company_role: 'company_admin',
+        platform_role: 'user',
+        password: defaultPassword,
+        account_status: 'ACTIVE',
+        is_active: true,
+      });
+
+      // 4. Tạo quan hệ trong bảng company_users
+      await supabase.from('company_users').insert({
+        company_id: newCompanyId,
+        email: comp.adminEmail.trim().toLowerCase(),
+        username: adminUsername,
+        company_role: 'company_admin',
+        status: 'active',
+      });
+
+      // 5. Làm mới danh sách công ty
+      await get().fetchPlatformData();
+
+      return {
+        ...comp,
+        id: newCompanyId,
+        createdAt: insertedComp.created_at,
+      };
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  updateCompany: async (id, patch) => {
+    set({ isLoading: true });
+    try {
+      const dbPatch: any = {};
+      if (patch.name !== undefined) dbPatch.name = patch.name;
+      if (patch.slogan !== undefined) dbPatch.slogan = patch.slogan;
+      if (patch.plan !== undefined) dbPatch.plan = patch.plan;
+      if (patch.status !== undefined) dbPatch.status = patch.status;
+      if (patch.adminEmail !== undefined) dbPatch.admin_email = patch.adminEmail;
+      if (patch.adminPhone !== undefined) dbPatch.admin_phone = patch.adminPhone;
+      if (patch.maxUsers !== undefined) dbPatch.max_users = patch.maxUsers;
+      if (patch.maxStorageGb !== undefined) dbPatch.max_storage_gb = patch.maxStorageGb;
+      if (patch.expiryDate !== undefined) dbPatch.expiry_date = patch.expiryDate;
+      dbPatch.updated_at = new Date().toISOString();
+
+      const { error } = await supabase.from('companies').update(dbPatch).eq('id', id);
+      if (error) throw error;
+
+      await get().fetchPlatformData();
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  deleteCompany: async (id) => {
+    set({ isLoading: true });
+    try {
+      const { error } = await supabase.from('companies').delete().eq('id', id);
+      if (error) throw error;
+      await get().fetchPlatformData();
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  saveSecurityConfig: async (cfg) => {
+    set((state) => ({ securityConfig: { ...state.securityConfig, ...cfg } }));
+  },
+
+  saveMasterCategories: async (cats) => {
+    set((state) => ({ masterCategories: { ...state.masterCategories, ...cats } }));
+  },
+
+  saveIntegrationConfig: async (integ) => {
+    set((state) => ({ integrationConfig: { ...state.integrationConfig, ...integ } }));
+  },
+}));

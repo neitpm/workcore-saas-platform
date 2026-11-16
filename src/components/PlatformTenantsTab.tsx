@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePlatformAdminStore, CompanyTenant } from '../store/platformAdminStore';
 import { Modal } from './Modal';
 
@@ -7,11 +7,15 @@ interface PlatformTenantsTabProps {
 }
 
 export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerToast }) => {
-  const { companies, addCompany, updateCompany, deleteCompany } = usePlatformAdminStore();
+  const { companies, addCompany, updateCompany, deleteCompany, fetchPlatformData } = usePlatformAdminStore();
   const [search, setSearch] = useState('');
   const [selectedPlan, setSelectedPlan] = useState<string>('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCompany, setEditingCompany] = useState<CompanyTenant | null>(null);
+
+  useEffect(() => {
+    fetchPlatformData();
+  }, [fetchPlatformData]);
 
   // Form state
   const [code, setCode] = useState('');
