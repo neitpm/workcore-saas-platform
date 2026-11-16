@@ -144,7 +144,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
           className="px-5 py-2.5 rounded text-xs font-extrabold bg-blue-700 hover:bg-blue-800 text-white transition-all shadow-md flex items-center gap-2 self-start sm:self-auto cursor-pointer border border-blue-800 shrink-0"
         >
           <span className="material-symbols-outlined text-base text-white">add_business</span>
-          <span className="text-white tracking-wide">Thêm công ty thuê bao</span>
+          <span className="text-white tracking-wide">Thêm thuê bao</span>
         </button>
       </div>
 
