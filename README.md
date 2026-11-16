@@ -1,22 +1,189 @@
-# WORKCORE SaaS Platform 🌐
+<div align="center">
 
-**WORKCORE SaaS Platform** là bảng điều khiển quản trị trung tâm độc lập (Central SaaS Administration Console) dành riêng cho Quản trị viên nền tảng (**Platform Super Admin**) để phát hành và quản lý các công ty khách hàng thuê phần mềm.
+# 🌐 WORKCORE SaaS Platform
+### Trung Tâm Điều Hành & Quản Trị Đa Doanh Nghiệp (Multi-Tenant Central Console)
 
-## 🚀 Chức năng chính:
-- **Quản lý đa công ty (Tenants):** Tạo mới, chỉnh sửa thông tin doanh nghiệp, mã công ty (`code`), mã số thuế, slogan, số lượng user và dung lượng lưu trữ tối đa.
-- **Tự động cấp tài khoản Company Admin:** Khi tạo công ty mới, hệ thống tự động sinh tài khoản Giám đốc / Admin riêng cho công ty đó trong cơ sở dữ liệu.
-- **Phân bổ gói thuê bao:** Cấu hình 4 gói cước tiêu chuẩn (`trial`, `standard`, `professional`, `enterprise`) kèm ngày bắt đầu và ngày hết hạn.
-- **Bật / Tắt Module theo hợp đồng:** Cấp phép linh hoạt từng module nghiệp vụ trong số 13 module cốt lõi cho từng khách hàng.
-- **Cô lập bảo mật:** Kết nối an toàn vào Supabase Backend qua bảng `companies`, `modules`, `company_modules`.
+[![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![React](https://img.shields.io/badge/React-18.3.1-61DAFB?logo=react&logoColor=black)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7.2-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.4.14-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.4.17-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-Database%20%26%20Auth-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 
-## 🛠️ Cài đặt & Chạy ứng dụng:
+<p align="center">
+  <b>Bảng điều khiển chuyên trách dành cho Platform Super Admin để quản lý danh sách công ty khách hàng, phân bổ gói thuê bao, cấp phát tài nguyên và kiểm soát bản quyền modules trong hệ sinh thái WORKCORE.</b>
+</p>
+
+---
+
+</div>
+
+## 📌 1. Giới thiệu tổng quan (Overview)
+
+**WORKCORE SaaS Platform** là ứng dụng độc lập đóng vai trò là "Tổng hành dinh" (Control Plane) của toàn bộ hệ sinh thái phần mềm quản lý công việc và dự án WORKCORE. 
+
+Trước đây, khi phần mềm được viết dưới dạng đơn doanh nghiệp (Single Tenant), các thông tin thương hiệu, cấu hình quản trị công ty bị gộp chung vào ứng dụng nghiệp vụ. **WORKCORE SaaS Platform ra đời để tách biệt hoàn toàn**:
+- **Ứng dụng SaaS Platform (Repo này):** Dành riêng cho đội ngũ phát triển và Quản trị viên hệ thống cấp cao nhất (**Platform Super Admin**) để kinh doanh phần mềm, quản lý hợp đồng thuê bao, mở/khóa các công ty khách hàng.
+- **Ứng dụng Nghiệp vụ (Client Web/App):** Dành cho từng công ty khách hàng cụ thể (Ví dụ: *TITSMART, Xây dựng Hòa Bình, An Phong,...*), dữ liệu được cô lập 100% theo `company_id`.
+
+---
+
+## 🏗️ 2. Kiến trúc hệ thống (Architecture)
+
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│                        WORKCORE SaaS Platform                          │
+│               https://github.com/neitpm/workcore-saas-platform         │
+│  - Super Admin Dashboard                                               │
+│  - Quản lý Tenants (Công ty khách hàng)                                │
+│  - Cấu hình gói thuê bao (Trial / Standard / Pro / Enterprise)         │
+│  - Bật / Tắt 13 Module nghiệp vụ độc lập cho từng công ty              │
+│  - Tự động sinh tài khoản Company Admin khi tạo tenant mới             │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    │ (Chung Backend Supabase DB)
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                      WORKCORE Enterprise Database                      │
+│                                                                        │
+│  [companies] ───< [company_modules] >─── [modules]                     │
+│       │                                                                │
+│       ├─── [engineers] (Tài khoản nhân sự gắn theo company_id)         │
+│       ├─── [projects]  (Dự án gắn theo company_id)                     │
+│       └─── [tasks, expenses, materials, ...] (Dữ liệu cô lập)         │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                   WORKCORE Business Client Apps                        │
+│            (Web Admin, Mobile App Android & iOS, Desktop)              │
+│  - Company Admin: Quản lý phòng ban, dự án, phân quyền nhân sự nội bộ  │
+│  - Giám đốc, Kế toán, PM, Kỹ sư hiện trường thao tác nghiệp vụ         │
+│  - Tự động hiển thị Logo, Tên công ty & Module được cấp phép           │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## ✨ 3. Tính năng cốt lõi (Core Features)
+
+### 🏢 3.1. Quản lý Đa Doanh Nghiệp (Tenant Management)
+- **Đăng ký công ty mới:** Thiết lập Tên doanh nghiệp, Mã công ty (`code` - Unique), Mã số thuế, Slogan, Logo.
+- **Tự động cấp quyền Company Admin:** Ngay khi tạo công ty, hệ thống tự động sinh tài khoản Quản trị viên / Giám đốc cho công ty đó với quyền `company_admin`, cho phép bàn giao ngay cho khách hàng.
+- **Quản lý trạng thái vận hành:** Chuyển trạng thái linh hoạt giữa `active` (Đang hoạt động), `suspended` (Tạm khóa khi quá hạn thanh toán) và `expired` (Hết hạn hợp đồng).
+
+### 💳 3.2. Quản lý Gói Thuê Bao & Hạn Mức (Subscriptions & Quotas)
+- **4 Cấp độ gói dịch vụ:**
+  - 🟢 **Trial (Dùng thử):** 14 ngày trải nghiệm, tối đa 5 tài khoản, 2 GB lưu trữ.
+  - 🔵 **Standard (Tiêu chuẩn):** Doanh nghiệp vừa & nhỏ, 25 tài khoản, 20 GB lưu trữ.
+  - 🟣 **Professional (Chuyên nghiệp):** Đa dự án, quy trình tài chính sâu, 60 tài khoản, 50 GB lưu trữ.
+  - 👑 **Enterprise (Doanh nghiệp lớn):** Không giới hạn tài khoản, 200 GB+ lưu trữ, White-label thương hiệu riêng, hỗ trợ SLA 24/7.
+- **Giới hạn tài nguyên:** Kiểm soát chính xác `max_users` và `max_storage_gb` cho từng tenant.
+- **Thời hạn bản quyền:** Quản lý ngày kích hoạt và ngày hết hạn thuê bao; cảnh báo tự động khi sắp đến kỳ gia hạn.
+
+### 🧩 3.3. Bật / Tắt Module Nghiệp Vụ Linh Hoạt (Feature Toggling)
+Hệ thống chuẩn hóa 13 module cốt lõi. Super Admin có thể bật hoặc tắt từng module cụ thể cho mỗi công ty chỉ bằng 1 nút gạt:
+1. `PROJECTS`: Quản lý danh mục dự án & tiến độ tổng thể.
+2. `TASKS`: Phân công công việc, WBS, tiến độ thi công.
+3. `MATERIALS`: Quản lý kế hoạch vật tư & nhu cầu thi công.
+4. `PURCHASING`: Mua sắm, theo dõi đặt hàng và giao hàng.
+5. `EXPENSES`: Quản lý phiếu chi, tạm ứng & tài chính dự án.
+6. `FUND_REQUEST`: Quy trình phê duyệt & cấp quỹ đa cấp.
+7. `LABOR_PAYROLL`: Nhân công thuê ngoài & bảng thanh toán công.
+8. `FIELD_LOGS`: Nhật ký giám sát & thi công hiện trường.
+9. `DOCUMENTS`: Quản lý hợp đồng & theo dõi luân chuyển hồ sơ.
+10. `INVENTORY`: Quản lý kho, xuất - nhập - tồn vật tư.
+11. `ATTENDANCE`: Chấm công, đơn từ nghỉ phép & nhân sự.
+12. `REPORTS`: Báo cáo quản trị, phân tích dòng tiền & hiệu suất.
+13. `SETTINGS`: Cấu hình danh mục & phân quyền nội bộ công ty.
+
+### 📊 3.4. Bảng Giám Sát Tài Nguyên Trung Tâm (Central Monitoring)
+- Thống kê thời gian thực: Tổng số công ty đang hoạt động, tổng số nhân sự được cấp phép toàn hệ thống, tổng dung lượng lưu trữ phân bổ.
+- Danh sách khách hàng mới kích hoạt, hỗ trợ tìm kiếm và lọc tức thì theo mã công ty, gói cước hoặc trạng thái.
+
+---
+
+## 📂 4. Cấu trúc thư mục (Project Structure)
+
+```text
+workcore-saas-platform/
+├── .env                          # Biến môi trường kết nối Supabase
+├── .gitignore                    # Các tệp loại trừ khỏi Git
+├── index.html                    # Điểm vào HTML chính
+├── package.json                  # Định nghĩa dependencies & scripts
+├── postcss.config.js             # Cấu hình PostCSS cho Tailwind
+├── tailwind.config.js            # Cấu hình giao diện Dark Modern
+├── tsconfig.json                 # Cấu hình TypeScript
+├── vite.config.ts                # Cấu hình Vite Dev Server
+├── src/
+│   ├── App.tsx                   # Bố cục giao diện chính & điều hướng tabs
+│   ├── index.css                 # CSS toàn cục & custom scrollbar
+│   ├── main.tsx                  # Điểm khởi chạy React DOM
+│   ├── vite-env.d.ts             # Khai báo kiểu môi trường Vite
+│   ├── components/
+│   │   ├── Sidebar.tsx           # Thanh điều hướng menu bên trái
+│   │   ├── DashboardOverview.tsx # Màn hình tổng quan & thống kê SaaS
+│   │   ├── TenantsManagement.tsx # Màn hình CRUD công ty, cấp quyền & toggle module
+│   │   └── ModulesOverview.tsx   # Danh mục 13 module & bảng giá 4 gói cước
+│   ├── lib/
+│   │   └── supabase.ts           # Khởi tạo kết nối Supabase Client
+│   ├── store/
+│   │   └── platformStore.ts      # Quản lý state toàn cục (Zustand + Supabase REST)
+│   └── types/
+│       └── index.ts              # Định nghĩa kiểu dữ liệu (Tenants, Modules, Plans)
+└── README.md                     # Tài liệu hướng dẫn sử dụng chi tiết
+```
+
+---
+
+## 🚀 5. Hướng dẫn cài đặt & Khởi chạy (Getting Started)
+
+### 5.1. Yêu cầu môi trường
+- **Node.js**: Phiên bản `18.x` hoặc `20.x` trở lên.
+- **npm** (hoặc `pnpm`, `yarn`).
+- **Trình duyệt hiện đại**: Chrome, Edge, Safari, Firefox.
+
+### 5.2. Cài đặt các gói phụ thuộc
+Clone repository về máy và cài đặt dependencies:
 ```bash
-# Cài đặt dependencies
+git clone https://github.com/neitpm/workcore-saas-platform.git
+cd workcore-saas-platform
 npm install
+```
 
-# Khởi chạy chế độ phát triển
+### 5.3. Cấu hình biến môi trường
+File cấu hình `.env` nằm tại thư mục gốc của dự án:
+```env
+# URL và Public Anon Key của Supabase Backend
+VITE_SUPABASE_URL=https://nvdonaaxbtqjfmxtlgzb.supabase.co
+VITE_SUPABASE_ANON_KEY=sb_publishable_gzUeVF_f2jadDuuii66pCw_W_0xmqjg
+```
+*(Nếu bạn muốn chạy thử với Supabase Local, chỉ cần trỏ về `http://127.0.0.1:54321`)*.
+
+### 5.4. Chạy chế độ phát triển (Development Mode)
+```bash
 npm run dev
+```
+Mở trình duyệt truy cập: **`http://localhost:3001`**
 
-# Build kiểm tra production
+### 5.5. Đóng gói triển khai (Production Build)
+```bash
 npm run build
 ```
+Bản build tối ưu hóa sẽ được tạo tại thư mục `dist/` sẵn sàng triển khai lên Vercel, Netlify, Cloudflare Pages hoặc Docker Nginx.
+
+---
+
+## 🔒 6. Bảo mật & Cô lập dữ liệu (Security & Isolation)
+
+1. **Kiểm soát truy cập (Access Control):** Chỉ những tài khoản có vai trò `super_admin` trên bảng quản trị mới có quyền truy cập ứng dụng này. Người dùng nghiệp vụ của các công ty khách hàng hoàn toàn không có quyền thao tác trên các bảng `companies` và `company_modules`.
+2. **Cô lập theo Row Level Security (RLS):** Mọi truy vấn từ các ứng dụng nghiệp vụ bên ngoài bắt buộc phải đi kèm điều kiện `company_id = auth.user.company_id`. Dữ liệu của công ty này sẽ hoàn toàn vô hình đối với công ty khác.
+3. **Quản lý mật khẩu:** Mật khẩu Company Admin khởi tạo ban đầu được mã hóa và bảo mật, buộc người dùng đổi mật khẩu trong lần đăng nhập đầu tiên.
+
+---
+
+## 👥 7. Đóng góp & Bản quyền (License & Authors)
+
+- **Phát triển bởi:** Đội ngũ Kỹ sư Công nghệ WORKCORE / TITSMART
+- **Bản quyền:** © 2026 WORKCORE Platform. Mọi quyền được bảo lưu.
+- **Mã nguồn:** Lưu trữ nội bộ phục vụ quản trị nền tảng SaaS.
