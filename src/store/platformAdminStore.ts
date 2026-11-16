@@ -199,7 +199,7 @@ export const usePlatformAdminStore = create<PlatformAdminStoreState>((set, get) 
       const adminUsername = comp.adminEmail.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
       const defaultPassword = comp.adminPassword || '123456';
 
-      await supabase.from('engineers').insert({
+      const { data: engData } = await supabase.from('engineers').insert({
         company_id: newCompanyId,
         username: adminUsername,
         name: `Admin - ${comp.name}`,
@@ -212,7 +212,33 @@ export const usePlatformAdminStore = create<PlatformAdminStoreState>((set, get) 
         password: defaultPassword,
         account_status: 'ACTIVE',
         is_active: true,
-      });
+      }).select().single();
+
+      // Đồng bộ vào auth.users để đăng nhập ngay qua Supabase Auth
+      if (engData && engData.id) {
+        try {
+          await supabase.rpc('sync_engineer_to_auth', {
+            p_engineer_id: engData.id,
+            p_email: comp.adminEmail.trim().toLowerCase(),
+            p_password: defaultPassword,
+            p_name: `Admin - ${comp.name}`
+          });
+        } catch {
+          // Bỏ qua nếu chưa định nghĩa RPC
+        }
+      }
+
+      // Tự động tạo hồ sơ nhận diện công ty trong company_branding
+      await supabase.from('company_branding').upsert({
+        company_id: newCompanyId,
+        company_name: comp.name.trim(),
+        company_slogan: comp.slogan?.trim() || '',
+        company_logo: comp.logo?.trim() || null,
+        hotline: comp.adminPhone?.trim() || null,
+        email: comp.adminEmail.trim().toLowerCase(),
+        address: comp.notes?.trim() || '',
+        updated_at: new Date().toISOString()
+      }, { onConflict: 'company_id' });
 
       // 4. Tạo quan hệ trong bảng company_users
       await supabase.from('company_users').insert({
@@ -254,6 +280,19 @@ export const usePlatformAdminStore = create<PlatformAdminStoreState>((set, get) 
 
       const { error } = await supabase.from('companies').update(dbPatch).eq('id', id);
       if (error) throw error;
+
+      // Đồng bộ sang bảng company_branding nếu cập nhật name, slogan hoặc logo
+      if (patch.name !== undefined || patch.slogan !== undefined || patch.logo !== undefined) {
+        try {
+          const brandPatch: any = { updated_at: new Date().toISOString() };
+          if (patch.name !== undefined) brandPatch.company_name = patch.name;
+          if (patch.slogan !== undefined) brandPatch.company_slogan = patch.slogan;
+          if (patch.logo !== undefined) brandPatch.company_logo = patch.logo;
+          await supabase.from('company_branding').update(brandPatch).eq('company_id', id);
+        } catch {
+          // Bỏ qua lỗi phụ
+        }
+      }
 
       await get().fetchPlatformData();
     } finally {
