@@ -2,6 +2,26 @@ import { create } from 'zustand';
 import { supabase } from '../lib/supabase';
 import { CompanyTenant, SystemModule, CompanyModuleAssignment } from '../types';
 
+// Dữ liệu module cũ có thể bị mã hóa UTF-8 sai nhiều lớp.
+const MOJIBAKE_MARKERS = /[ÃÂÄÅÆâð�]|á(?:º|»)/;
+
+const repairMojibake = (value?: string): string => {
+  let current = value || '';
+
+  for (let pass = 0; pass < 4 && MOJIBAKE_MARKERS.test(current); pass += 1) {
+    try {
+      const bytes = Uint8Array.from(Array.from(current).map((char) => char.charCodeAt(0) & 0xff));
+      const repaired = new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+      if (!repaired || repaired === current || repaired.includes('�')) break;
+      current = repaired;
+    } catch {
+      break;
+    }
+  }
+
+  return current;
+};
+
 interface PlatformStoreState {
   companies: CompanyTenant[];
   modules: SystemModule[];
@@ -81,9 +101,9 @@ export const usePlatformStore = create<PlatformStoreState>((set, get) => ({
 
       const formattedModules: SystemModule[] = (modData || []).map((m: any) => ({
         id: m.id,
-        name: m.name,
-        description: m.description,
-        category: m.category,
+        name: repairMojibake(m.name),
+        description: repairMojibake(m.description),
+        category: repairMojibake(m.category),
         isCore: Boolean(m.is_core),
       }));
 

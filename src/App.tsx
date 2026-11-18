@@ -3,8 +3,12 @@ import { PlatformTenantsTab } from './components/PlatformTenantsTab';
 import { MasterCategoriesTab } from './components/MasterCategoriesTab';
 import { SystemSecurityTab } from './components/SystemSecurityTab';
 import { SystemIntegrationTab } from './components/SystemIntegrationTab';
+import { CompanyAdminPortal } from './components/CompanyAdminPortal';
 
 export const App: React.FC = () => {
+  if (window.location.pathname === '/company-admin/login' || window.location.pathname === '/company-admin') {
+    return <CompanyAdminPortal />;
+  }
   const [activeTab, setActiveTab] = useState<'tenants' | 'categories' | 'security' | 'integrations'>('tenants');
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'info' | 'warning' | 'error' } | null>(null);
 

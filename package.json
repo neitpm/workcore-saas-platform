@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:provision": "node local-api/provisioning-server.mjs",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },

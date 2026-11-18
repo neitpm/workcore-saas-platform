@@ -7,7 +7,7 @@ interface PlatformTenantsTabProps {
 }
 
 export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerToast }) => {
-  const { companies, addCompany, updateCompany, deleteCompany, fetchPlatformData } = usePlatformAdminStore();
+  const { companies, modules, companyModules, addCompany, updateCompany, deleteCompany, fetchPlatformData } = usePlatformAdminStore();
   const [search, setSearch] = useState('');
   const [selectedPlan, setSelectedPlan] = useState<string>('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,6 +31,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
   const [startDate, setStartDate] = useState(new Date().toISOString().slice(0, 10));
   const [expiryDate, setExpiryDate] = useState('2027-12-31');
   const [notes, setNotes] = useState('');
+  const [enabledModuleIds, setEnabledModuleIds] = useState<string[]>([]);
 
   const openCreateModal = () => {
     setEditingCompany(null);
@@ -47,6 +48,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
     setStartDate(new Date().toISOString().slice(0, 10));
     setExpiryDate('2027-12-31');
     setNotes('');
+    setEnabledModuleIds(modules.map((module) => module.id));
     setIsModalOpen(true);
   };
 
@@ -65,6 +67,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
     setStartDate(comp.startDate);
     setExpiryDate(comp.expiryDate);
     setNotes(comp.notes || '');
+    setEnabledModuleIds(companyModules[comp.id] || modules.map((module) => module.id));
     setIsModalOpen(true);
   };
 
@@ -91,6 +94,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
           startDate,
           expiryDate,
           notes: notes.trim()
+          ,enabledModuleIds
         });
         triggerToast(`Đã cập nhật công ty "${name}" thành công!`, 'success');
       } else {
@@ -108,6 +112,7 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
           startDate,
           expiryDate,
           notes: notes.trim()
+          ,enabledModuleIds
         });
         triggerToast(`Đã thêm công ty khách hàng "${name}" mới!`, 'success');
       }
@@ -299,6 +304,33 @@ export const PlatformTenantsTab: React.FC<PlatformTenantsTabProps> = ({ triggerT
                 placeholder="VD: EVN, VIETTEL, CTY-ABC"
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded outline-none focus:bg-white focus:border-primary font-mono font-bold"
               />
+            </div>
+            <div className="sm:col-span-2 rounded-lg border border-blue-200 bg-blue-50/50 p-3">
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <label className="font-extrabold text-slate-800 block">Module được cấp cho công ty</label>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Chỉ các module được chọn mới hiển thị trong Company App.</p>
+                </div>
+                <span className="text-[11px] font-bold text-blue-700">{enabledModuleIds.length}/{modules.length} module</span>
+              </div>
+              {modules.length === 0 ? (
+                <div className="rounded border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] text-amber-800">Chưa tải được danh mục module.</div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {modules.map((module) => {
+                    const checked = enabledModuleIds.includes(module.id);
+                    return (
+                      <label key={module.id} className={`flex items-start gap-2 rounded-lg border px-3 py-2 cursor-pointer transition-colors ${checked ? 'border-blue-300 bg-white' : 'border-slate-200 bg-slate-50'}`}>
+                        <input type="checkbox" checked={checked} onChange={() => setEnabledModuleIds((current) => checked ? current.filter((id) => id !== module.id) : [...current, module.id])} className="mt-0.5 accent-blue-700" />
+                        <span className="min-w-0">
+                          <span className="block font-bold text-slate-800">{module.name}</span>
+                          {module.description && <span className="block text-[10px] text-slate-500 mt-0.5">{module.description}</span>}
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
+              )}
             </div>
             <div>
               <label className="font-bold text-slate-700 block mb-1">Tên công ty / Doanh nghiệp *</label>

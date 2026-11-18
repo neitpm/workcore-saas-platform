@@ -152,21 +152,45 @@ npm install
 ```
 
 ### 5.3. Cấu hình biến môi trường
-File cấu hình `.env` nằm tại thư mục gốc của dự án:
+Không commit URL/key thật vào README. Khi chạy local, file `.env` của Platform trỏ tới Supabase Platform local:
 ```env
-# URL và Public Anon Key của Supabase Backend
-VITE_SUPABASE_URL=https://nvdonaaxbtqjfmxtlgzb.supabase.co
-VITE_SUPABASE_ANON_KEY=sb_publishable_gzUeVF_f2jadDuuii66pCw_W_0xmqjg
+VITE_SUPABASE_URL=http://127.0.0.1:55321
+VITE_SUPABASE_ANON_KEY=[publishable key của Platform local]
 ```
-*(Nếu bạn muốn chạy thử với Supabase Local, chỉ cần trỏ về `http://127.0.0.1:54321`)*.
 
-### 5.4. Chạy chế độ phát triển (Development Mode)
+Platform local là DB riêng, không dùng chung DB của Company App.
+
+### 5.4. Khởi động Supabase Platform local
+```bash
+cd /mnt/d/workcore-saas-platform
+supabase start --workdir /mnt/d/workcore-saas-platform/supabase-platform
+```
+
+Các địa chỉ local:
+
+- API: `http://127.0.0.1:55321`
+- Database: `127.0.0.1:55322`
+- Studio: `http://127.0.0.1:55323`
+- Mailpit: `http://127.0.0.1:55324`
+
+### 5.5. Chạy Platform Admin
 ```bash
 npm run dev
 ```
 Mở trình duyệt truy cập: **`http://localhost:3001`**
 
-### 5.5. Đóng gói triển khai (Production Build)
+### 5.6. Chạy Provisioning API local
+Mở terminal thứ hai:
+```bash
+cd /mnt/d/workcore-saas-platform
+export SUPABASE_SECRET_KEY='[local secret key]'
+npm run dev:provision
+```
+
+API provision chạy tại `http://127.0.0.1:55400`.
+Không ghi secret thật vào README hoặc commit lên GitHub.
+
+### 5.7. Đóng gói triển khai (Production Build)
 ```bash
 npm run build
 ```

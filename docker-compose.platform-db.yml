@@ -1,0 +1,25 @@
+name: workcore-platform-local
+
+services:
+  platform-db:
+    image: public.ecr.aws/supabase/postgres:17.11.0.011
+    container_name: workcore-platform-db
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:54332:5432"
+    environment:
+      POSTGRES_DB: platform_saas
+      POSTGRES_USER: platform_admin
+      POSTGRES_PASSWORD: platform_local_dev_only
+    volumes:
+      - workcore_platform_pgdata:/var/lib/postgresql/data
+      - ./database/platform/001_platform_schema.sql:/docker-entrypoint-initdb.d/001_platform_schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U platform_admin -d platform_saas"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  workcore_platform_pgdata:
+    name: workcore_platform_pgdata
