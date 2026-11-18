@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">WORKCORE SaaS Platform isometric architecture</title>
+  <desc id="desc">Platform Super Admin controls tenant companies and module entitlements. Company Admin configures each company app. End users use only enabled modules. Platform and company databases are isolated.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#f8fbff"/><stop offset="1" stop-color="#e9f0fb"/></linearGradient>
+    <linearGradient id="blue" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#1e3a8a"/></linearGradient>
+    <linearGradient id="teal" x1="0" x2="1"><stop stop-color="#0f766e"/><stop offset="1" stop-color="#115e59"/></linearGradient>
+    <linearGradient id="purple" x1="0" x2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#4c1d95"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#18345f" flood-opacity=".18"/></filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#64748b"/></marker>
+    <style>text{font-family:Inter,Segoe UI,Arial,sans-serif;fill:#0f172a}.title{font-size:29px;font-weight:800}.label{font-size:19px;font-weight:800;fill:#fff}.small{font-size:15px;font-weight:600;fill:#dbeafe}.db{font-size:17px;font-weight:800;fill:#fff}.note{font-size:14px;font-weight:600;fill:#475569}.arrowlabel{font-size:14px;font-weight:700;fill:#475569}</style>
+  </defs>
+  <rect width="1400" height="820" rx="28" fill="url(#bg)"/>
+  <text x="70" y="70" class="title">WORKCORE SaaS — Multi-Tenant Control Plane</text>
+  <text x="70" y="101" class="note">Luồng quản trị từ Platform Super Admin đến Company Admin và người dùng cuối</text>
+
+  <!-- Platform control plane -->
+  <g filter="url(#shadow)">
+    <path d="M85 160 L330 105 L575 160 L330 216 Z" fill="#60a5fa"/>
+    <path d="M85 160 V275 L330 330 V216 Z" fill="#1d4ed8"/>
+    <path d="M575 160 V275 L330 330 V216 Z" fill="#1e3a8a"/>
+    <text x="195" y="166" class="label">PLATFORM ADMIN</text><text x="181" y="192" class="small">Super Admin Console</text>
+    <text x="137" y="242" class="small">Companies · Plans · Modules</text><text x="137" y="265" class="small">Quotas · Subscription · Provisioning</text>
+  </g>
+
+  <!-- platform db -->
+  <g filter="url(#shadow)">
+    <path d="M725 160 Q850 110 975 160 V270 Q850 320 725 270 Z" fill="#14b8a6"/>
+    <ellipse cx="850" cy="160" rx="125" ry="50" fill="#5eead4"/>
+    <ellipse cx="850" cy="160" rx="91" ry="32" fill="#0f766e"/>
+    <text x="793" y="166" class="db">PLATFORM DB</text>
+    <text x="760" y="218" class="small">companies · modules</text><text x="760" y="241" class="small">company_modules · roles</text><text x="760" y="264" class="small">platform_admins · users</text>
+  </g>
+  <path d="M575 215 L720 215" stroke="#64748b" stroke-width="4" marker-end="url(#arrow)"/><text x="600" y="198" class="arrowlabel">quản lý / cấp quyền</text>
+
+  <!-- company admin -->
+  <g filter="url(#shadow)">
+    <path d="M85 470 L330 415 L575 470 L330 526 Z" fill="#a78bfa"/>
+    <path d="M85 470 V585 L330 640 V526 Z" fill="#6d28d9"/>
+    <path d="M575 470 V585 L330 640 V526 Z" fill="#4c1d95"/>
+    <text x="192" y="476" class="label">COMPANY ADMIN</text><text x="191" y="502" class="small">Company App / Web Admin</text>
+    <text x="137" y="552" class="small">Branding · Nhân sự · Roles</text><text x="137" y="575" class="small">Danh mục · Quy trình · UI</text>
+  </g>
+
+  <!-- end users -->
+  <g filter="url(#shadow)">
+    <path d="M725 470 L970 415 L1215 470 L970 526 Z" fill="#5eead4"/>
+    <path d="M725 470 V585 L970 640 V526 Z" fill="#0f766e"/>
+    <path d="M1215 470 V585 L970 640 V526 Z" fill="#115e59"/>
+    <text x="852" y="476" class="label">NGƯỜI DÙNG CUỐI</text><text x="837" y="502" class="small">Giám đốc · PM · Kế toán · Kỹ sư</text>
+    <text x="777" y="552" class="small">Chỉ thấy module được cấp</text><text x="777" y="575" class="small">và quyền được gán</text>
+  </g>
+  <path d="M330 330 L330 410" stroke="#64748b" stroke-width="4" marker-end="url(#arrow)"/><text x="350" y="375" class="arrowlabel">cấu hình công ty</text>
+  <path d="M575 530 L720 530" stroke="#64748b" stroke-width="4" marker-end="url(#arrow)"/><text x="595" y="513" class="arrowlabel">gán role / quyền</text>
+
+  <!-- company db -->
+  <g filter="url(#shadow)">
+    <path d="M725 710 Q850 660 975 710 V790 Q850 840 725 790 Z" fill="#2563eb"/>
+    <ellipse cx="850" cy="710" rx="125" ry="50" fill="#93c5fd"/>
+    <ellipse cx="850" cy="710" rx="91" ry="32" fill="#1e3a8a"/>
+    <text x="793" y="716" class="db">COMPANY DB</text>
+    <text x="1010" y="720" class="note">Dữ liệu nghiệp vụ cô lập theo company_id</text>
+  </g>
+  <path d="M970 640 L900 690" stroke="#64748b" stroke-width="4" marker-end="url(#arrow)"/><text x="1000" y="660" class="arrowlabel">nghiệp vụ / dữ liệu</text>
+
+  <rect x="70" y="735" width="570" height="48" rx="10" fill="#fff" stroke="#cbd5e1"/>
+  <text x="92" y="765" class="note">Tách biệt: Platform DB ≠ Company App DB ≠ DB công ty khác</text>
+</svg>

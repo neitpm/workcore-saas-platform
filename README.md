@@ -30,6 +30,10 @@ Trước đây, khi phần mềm được viết dưới dạng đơn doanh nghi
 
 ## 🏗️ 2. Kiến trúc hệ thống (Architecture)
 
+![WORKCORE SaaS Platform isometric architecture](docs/platform-architecture-isometric.svg)
+
+> Platform DB chỉ quản lý tenant, gói dịch vụ, module và quyền cấp phát. Company App DB lưu dữ liệu nghiệp vụ riêng của từng công ty; không dùng chung hoặc reset DB product.
+
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
 │                        WORKCORE SaaS Platform                          │
@@ -40,17 +44,17 @@ Trước đây, khi phần mềm được viết dưới dạng đơn doanh nghi
 │  - Bật / Tắt 13 Module nghiệp vụ độc lập cho từng công ty              │
 │  - Tự động sinh tài khoản Company Admin khi tạo tenant mới             │
 └───────────────────────────────────┬────────────────────────────────────┘
-                                    │
-                                    │ (Chung Backend Supabase DB)
+                                    │ (Platform DB riêng)
                                     ▼
 ┌────────────────────────────────────────────────────────────────────────┐
-│                      WORKCORE Enterprise Database                      │
+│                      WORKCORE Platform Database                        │
 │                                                                        │
 │  [companies] ───< [company_modules] >─── [modules]                     │
 │       │                                                                │
-│       ├─── [engineers] (Tài khoản nhân sự gắn theo company_id)         │
-│       ├─── [projects]  (Dự án gắn theo company_id)                     │
-│       └─── [tasks, expenses, materials, ...] (Dữ liệu cô lập)         │
+│       ├─── [company_users] (Tài khoản Company Admin / user)            │
+│       ├─── [company_roles] (Role và quyền cấp phát)                   │
+│       └─── [company_databases] (Thông tin DB/tenant, không chứa        │
+│                                 dữ liệu nghiệp vụ product)             │
 └───────────────────────────────────┬────────────────────────────────────┘
                                     │
                                     ▼
@@ -59,8 +63,10 @@ Trước đây, khi phần mềm được viết dưới dạng đơn doanh nghi
 │            (Web Admin, Mobile App Android & iOS, Desktop)              │
 │  - Company Admin: Quản lý phòng ban, dự án, phân quyền nhân sự nội bộ  │
 │  - Giám đốc, Kế toán, PM, Kỹ sư hiện trường thao tác nghiệp vụ         │
-│  - Tự động hiển thị Logo, Tên công ty & Module được cấp phép           │
+│  - Đọc cấu hình và module qua API/adapter của Company App               │
 └────────────────────────────────────────────────────────────────────────┘
+
+> Dữ liệu nghiệp vụ như `projects`, `tasks`, `expenses`, `materials` thuộc Company App DB riêng. Platform không ghi trực tiếp vào DB product.
 ```
 
 ---
@@ -183,14 +189,40 @@ Mở trình duyệt truy cập: **`http://localhost:3001`**
 Mở terminal thứ hai:
 ```bash
 cd /mnt/d/workcore-saas-platform
-export SUPABASE_SECRET_KEY='[local secret key]'
+cp .env.local.example .env.local
+# Mở .env.local và điền secret local một lần
 npm run dev:provision
 ```
 
 API provision chạy tại `http://127.0.0.1:55400`.
 Không ghi secret thật vào README hoặc commit lên GitHub.
 
-### 5.7. Đóng gói triển khai (Production Build)
+### 5.7. Đăng nhập Company Admin
+
+Trang đăng nhập Company Admin của Company App:
+
+```text
+http://localhost:5173/#/company-admin/login
+```
+
+Company Admin dùng Supabase Auth của Platform local:
+
+```text
+POST http://127.0.0.1:55321/auth/v1/token?grant_type=password
+```
+
+Body:
+
+```json
+{
+  "email": "admin@tencongty.vn",
+  "password": "mat-khau"
+}
+```
+
+Frontend gọi endpoint này thông qua `platformAuthClient.auth.signInWithPassword()`.
+
+### 5.8. Đóng gói triển khai (Production Build)
 ```bash
 npm run build
 ```
