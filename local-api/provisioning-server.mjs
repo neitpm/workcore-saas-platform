@@ -18,7 +18,7 @@ const send = (res, status, body) => {
   const origin = res.req?.headers?.origin;
   res.writeHead(status, {
     'Content-Type': 'application/json; charset=utf-8',
-    'Access-Control-Allow-Origin': origin === 'http://localhost:3001' || origin === 'http://localhost:3002' || origin === 'http://localhost:5173'
+    'Access-Control-Allow-Origin': origin === 'http://localhost:3001' || origin === 'http://localhost:3002' || origin === 'http://localhost:5173' || origin === 'http://localhost:5174'
       ? origin
       : 'http://localhost:3001',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
