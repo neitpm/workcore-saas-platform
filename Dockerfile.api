@@ -1,0 +1,12 @@
+FROM node:20-bookworm-slim
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --omit=dev
+COPY local-api ./local-api
+
+ENV NODE_ENV=production
+ENV PLATFORM_PROVISION_PORT=55400
+EXPOSE 55400
+
+CMD ["node", "local-api/provisioning-server.mjs"]

@@ -93,6 +93,10 @@ Dừng Platform Docker: `cd D:\workcore-saas-platform-platform-admin; docker com
 
 Trước commit: kiểm tra branch riêng, `.env.local`, port, database URL; build Platform và Company App riêng; không commit secret.
 
+## Chạy bằng Docker
+
+Các file `Dockerfile.api`, `Dockerfile.web` và `docker-compose.platform-services.yml` chạy riêng Platform DB, Provisioning API và Platform Web. Tạo `.env.platform` với `SUPABASE_SERVICE_ROLE_KEY` của Platform local, không dùng key Product. Từ `D:\workcore-saas-platform-platform-admin`, chạy lần lượt `docker compose --env-file .env.platform -f docker-compose.platform-services.yml up -d --build platform-db`, `docker compose --env-file .env.platform -f docker-compose.platform-services.yml up -d --build provisioning-api`, rồi `docker compose --env-file .env.platform -f docker-compose.platform-services.yml up -d --build platform-web`. UI ở `http://localhost:3001`, API ở `http://127.0.0.1:55400`, DB ở `127.0.0.1:55322`. Xem log bằng `docker compose -f docker-compose.platform-services.yml logs -f provisioning-api` và dừng bằng `docker compose -f docker-compose.platform-services.yml down`.
+
 ### 🏢 3.1. Quản lý Đa Doanh Nghiệp (Tenant Management)
 - **Đăng ký công ty mới:** Thiết lập Tên doanh nghiệp, Mã công ty (`code` - Unique), Mã số thuế, Slogan, Logo.
 - **Tự động cấp quyền Company Admin:** Ngay khi tạo công ty, hệ thống tự động sinh tài khoản Quản trị viên / Giám đốc cho công ty đó với quyền `company_admin`, cho phép bàn giao ngay cho khách hàng.
