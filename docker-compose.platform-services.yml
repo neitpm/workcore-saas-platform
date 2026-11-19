@@ -1,20 +1,6 @@
 name: workcore-platform-services
 
 services:
-  platform-db:
-    image: public.ecr.aws/supabase/postgres:17.11.0.011
-    container_name: workcore-platform-db
-    restart: unless-stopped
-    ports:
-      - "127.0.0.1:55322:5432"
-    environment:
-      POSTGRES_DB: platform_saas
-      POSTGRES_USER: platform_admin
-      POSTGRES_PASSWORD: platform_local_dev_only
-    volumes:
-      - workcore_platform_pgdata:/var/lib/postgresql/data
-      - ./database/platform/001_platform_schema.sql:/docker-entrypoint-initdb.d/001_platform_schema.sql:ro
-
   provisioning-api:
     build:
       context: .
@@ -29,10 +15,6 @@ services:
       SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:?Set SUPABASE_SERVICE_ROLE_KEY in .env.platform}
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    depends_on:
-      platform-db:
-        condition: service_started
-
   platform-web:
     build:
       context: .
@@ -44,7 +26,3 @@ services:
     depends_on:
       provisioning-api:
         condition: service_started
-
-volumes:
-  workcore_platform_pgdata:
-    name: workcore_platform_pgdata
