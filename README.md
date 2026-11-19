@@ -73,6 +73,26 @@ Trước đây, khi phần mềm được viết dưới dạng đơn doanh nghi
 
 ## ✨ 3. Tính năng cốt lõi (Core Features)
 
+## 🧭 Chạy các service local
+
+Vị trí source: Platform Super Admin ở `D:\workcore-saas-platform-platform-admin\src`, Platform API ở `local-api`, Platform DB/migration ở `supabase-platform`. Company Admin/User clone ở `D:\Titsmart_task-platform-admin\web-admin`; bản Company App cũ ở `D:\HỆ THỐNG QUẢN LÝ CÔNG VIỆC-web-app-titsmart\web-admin`.
+
+Chuẩn bị Platform: `cd D:\workcore-saas-platform-platform-admin; npm install`. Chuẩn bị Company App: `cd D:\Titsmart_task-platform-admin\web-admin; npm install`. Hai phần phải dùng `.env.local` riêng và không được dùng `PRODUCT_SUPABASE_*`.
+
+Khởi động Platform DB bằng Supabase: `cd /mnt/d/workcore-saas-platform-platform-admin && supabase start && supabase status && supabase db push --workdir /mnt/d/workcore-saas-platform-platform-admin/supabase-platform`. Hoặc Docker: `cd D:\workcore-saas-platform-platform-admin; docker compose -f docker-compose.platform-db.yml up -d`.
+
+Khởi động Platform API ở terminal riêng: `cd D:\workcore-saas-platform-platform-admin; npm run dev:provision`.
+
+Khởi động Platform Super Admin ở terminal riêng: `cd D:\workcore-saas-platform-platform-admin; npm run dev -- --host 0.0.0.0 --port 3001`; mở `http://localhost:3001`.
+
+Khởi động Company Admin/User ở terminal riêng: `cd D:\Titsmart_task-platform-admin\web-admin; npm run dev:local`; mở URL Vite in ra, thường là `http://localhost:5173`. Company Admin và User dùng cùng Company App, quyền điều hướng theo tài khoản.
+
+Thứ tự chạy: Platform DB → Platform API → Platform Super Admin UI → Company App/User UI. Kiểm tra Network để bảo đảm Company App gọi Platform API, không truy cập trực tiếp Product DB.
+
+Dừng Platform Docker: `cd D:\workcore-saas-platform-platform-admin; docker compose -f docker-compose.platform-db.yml down`. Không chạy `supabase stop/start`, migration hoặc Docker down trong thư mục Product.
+
+Trước commit: kiểm tra branch riêng, `.env.local`, port, database URL; build Platform và Company App riêng; không commit secret.
+
 ### 🏢 3.1. Quản lý Đa Doanh Nghiệp (Tenant Management)
 - **Đăng ký công ty mới:** Thiết lập Tên doanh nghiệp, Mã công ty (`code` - Unique), Mã số thuế, Slogan, Logo.
 - **Tự động cấp quyền Company Admin:** Ngay khi tạo công ty, hệ thống tự động sinh tài khoản Quản trị viên / Giám đốc cho công ty đó với quyền `company_admin`, cho phép bàn giao ngay cho khách hàng.
