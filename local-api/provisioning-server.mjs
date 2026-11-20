@@ -113,6 +113,7 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(port, '127.0.0.1', () => {
-  console.log(`Platform provisioning API listening on http://127.0.0.1:${port}`);
+const host = process.env.PLATFORM_PROVISION_HOST || '0.0.0.0';
+server.listen(port, host, () => {
+  console.log(`Platform provisioning API listening on http://${host}:${port}`);
 });
