@@ -160,6 +160,9 @@ const server = http.createServer(async (req, res) => {
         if (error) throw error;
         return send(res, 200, { ...data, name: data.name || data.email });
       }
+      const { data: person, error: lookupError } = await admin.from('company_users').select('auth_user_id').eq('id', personId).eq('company_id', companyId).single();
+      if (lookupError) throw lookupError;
+      if (person?.auth_user_id) await admin.auth.admin.deleteUser(person.auth_user_id);
       const { error } = await admin.from('company_users').delete().eq('id', personId).eq('company_id', companyId);
       if (error) throw error;
       return send(res, 200, { ok: true });
@@ -204,13 +207,27 @@ const server = http.createServer(async (req, res) => {
       return send(res, 400, { error: 'companyId, email and password are required' });
     }
 
-    const { data: userData, error: userError } = await admin.auth.admin.createUser({
+    let userData;
+    const { data: createdUser, error: userError } = await admin.auth.admin.createUser({
       email: email.toLowerCase().trim(),
       password,
       email_confirm: true,
       user_metadata: { company_id: companyId, company_role: accountRole, name: name || email },
     });
-    if (userError) throw userError;
+    if (userError && userError.code !== 'email_exists' && !userError.message?.toLowerCase().includes('already been registered')) throw userError;
+    if (createdUser?.user) {
+      userData = createdUser;
+    } else {
+      const { data: users, error: listError } = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 });
+      if (listError) throw listError;
+      const existing = users.users.find((user) => user.email?.toLowerCase() === email.toLowerCase().trim());
+      if (!existing) throw userError || new Error('Existing Auth user could not be found');
+      const { data: updated, error: updateError } = await admin.auth.admin.updateUserById(existing.id, {
+        password, email_confirm: true, user_metadata: { company_id: companyId, company_role: accountRole, name: name || email },
+      });
+      if (updateError) throw updateError;
+      userData = { user: updated.user };
+    }
 
     const { error: linkError } = await admin.from('company_users').upsert({
       company_id: companyId,
