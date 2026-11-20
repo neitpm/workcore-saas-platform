@@ -129,6 +129,45 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
+  const peopleMatch = req.url?.match(/^\/api\/v1\/companies\/([^/]+)\/people(?:\/([^/]+))?(?:\?.*)?$/);
+  if (peopleMatch && ['GET', 'POST', 'PUT', 'DELETE'].includes(req.method || '')) {
+    try {
+      const companyId = peopleMatch[1];
+      const personId = peopleMatch[2];
+      if (req.method === 'GET') {
+        const { data, error } = await admin.from('company_users').select('*').eq('company_id', companyId).order('created_at', { ascending: true });
+        if (error) throw error;
+        return send(res, 200, { people: (data || []).map((person) => ({ ...person, name: person.name || person.email })) });
+      }
+      if (req.method === 'POST') {
+        const body = await readBody(req);
+        if (!body.email?.trim()) return send(res, 400, { error: 'email is required' });
+        const { data, error } = await admin.from('company_users').insert({
+          company_id: companyId, email: body.email.toLowerCase().trim(), name: body.name || body.email,
+          phone: body.phone || null, department: body.department || null, position: body.position || null,
+          role: body.role || 'member', role_id: body.role_id || null, status: 'active', joined_at: body.joined_at || null,
+          national_id: body.national_id || null, address: body.address || null,
+          emergency_contact_name: body.emergency_contact_name || null, emergency_contact_phone: body.emergency_contact_phone || null,
+          username: body.username || null,
+        }).select('*').single();
+        if (error) throw error;
+        return send(res, 201, { ...data, name: data.name || data.email });
+      }
+      if (!personId) return send(res, 400, { error: 'person id is required' });
+      if (req.method === 'PUT') {
+        const body = await readBody(req);
+        const { data, error } = await admin.from('company_users').update({ status: body.status }).eq('id', personId).eq('company_id', companyId).select('*').single();
+        if (error) throw error;
+        return send(res, 200, { ...data, name: data.name || data.email });
+      }
+      const { error } = await admin.from('company_users').delete().eq('id', personId).eq('company_id', companyId);
+      if (error) throw error;
+      return send(res, 200, { ok: true });
+    } catch (error) {
+      return send(res, 500, { error: error?.message || 'People operation failed' });
+    }
+  }
+
   if (req.method !== 'POST' || (req.url !== '/provision-company-admin' && req.url !== '/provision-company-user')) {
     return send(res, 404, { error: 'NOT_FOUND' });
   }
