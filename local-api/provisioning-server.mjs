@@ -94,14 +94,19 @@ const server = http.createServer(async (req, res) => {
         return send(res, 200, {
           company_id: companyId,
           name: company.name || data?.company_name || '',
-          slogan: data?.company_slogan ?? company.slogan ?? '',
-          logo_url: company.logo_url || data?.company_logo || '',
+          slogan: company.slogan || '',
+          logo_url: company.logo_url || '',
           hotline: data?.hotline || '', contact_email: data?.email || company.admin_email || '',
           address: data?.address || '', updated_at: data?.updated_at || null,
         });
       }
 
       const body = await readBody(req);
+      const { error: companyUpdateError } = await admin.from('companies').update({
+        name: body.name || '', slogan: body.slogan || null, logo_url: body.logo_url || null,
+        updated_at: new Date().toISOString(),
+      }).eq('id', companyId);
+      if (companyUpdateError) throw companyUpdateError;
       const { data, error } = await admin.from('company_branding').upsert({
         company_id: companyId,
         company_name: body.name || '',
