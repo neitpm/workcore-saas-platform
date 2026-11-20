@@ -80,6 +80,55 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
+  const settingsMatch = req.url?.match(/^\/api\/v1\/companies\/([^/]+)\/settings(?:\?.*)?$/);
+  if (settingsMatch && (req.method === 'GET' || req.method === 'PUT')) {
+    try {
+      const companyId = settingsMatch[1];
+      if (req.method === 'GET') {
+        const { data, error } = await admin.from('company_branding').select('*').eq('company_id', companyId).maybeSingle();
+        if (error) throw error;
+        if (data) return send(res, 200, {
+          company_id: data.company_id,
+          name: data.company_name,
+          slogan: data.company_slogan,
+          logo_url: data.company_logo,
+          hotline: data.hotline,
+          contact_email: data.email,
+          address: data.address,
+          updated_at: data.updated_at,
+        });
+        const { data: company, error: companyError } = await admin.from('companies').select('id, name, slogan, logo_url').eq('id', companyId).single();
+        if (companyError) throw companyError;
+        return send(res, 200, { company_id: companyId, name: company.name, slogan: company.slogan || '', logo_url: company.logo_url || '' });
+      }
+
+      const body = await readBody(req);
+      const { data, error } = await admin.from('company_branding').upsert({
+        company_id: companyId,
+        company_name: body.name || '',
+        company_slogan: body.slogan || null,
+        company_logo: body.logo_url || null,
+        hotline: body.hotline || null,
+        email: body.contact_email || null,
+        address: body.address || null,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'company_id' }).select('*').single();
+      if (error) throw error;
+      return send(res, 200, { settings: {
+        company_id: data.company_id,
+        name: data.company_name,
+        slogan: data.company_slogan,
+        logo_url: data.company_logo,
+        hotline: data.hotline,
+        contact_email: data.email,
+        address: data.address,
+        updated_at: data.updated_at,
+      }});
+    } catch (error) {
+      return send(res, 500, { error: error?.message || 'Company settings failed' });
+    }
+  }
+
   if (req.method !== 'POST' || req.url !== '/provision-company-admin') {
     return send(res, 404, { error: 'NOT_FOUND' });
   }
