@@ -198,6 +198,8 @@ const server = http.createServer(async (req, res) => {
 
   try {
     const { companyId, email, password, name } = await readBody(req);
+    const isCompanyUser = req.url === '/provision-company-user';
+    const accountRole = isCompanyUser ? 'member' : 'company_admin';
     if (!companyId || !email || !password) {
       return send(res, 400, { error: 'companyId, email and password are required' });
     }
@@ -206,7 +208,7 @@ const server = http.createServer(async (req, res) => {
       email: email.toLowerCase().trim(),
       password,
       email_confirm: true,
-      user_metadata: { company_id: companyId, company_role: 'company_admin', name: name || email },
+      user_metadata: { company_id: companyId, company_role: accountRole, name: name || email },
     });
     if (userError) throw userError;
 
@@ -214,7 +216,7 @@ const server = http.createServer(async (req, res) => {
       company_id: companyId,
       auth_user_id: userData.user.id,
       email: email.toLowerCase().trim(),
-      role: 'company_admin',
+      role: accountRole,
       status: 'active',
     }, { onConflict: 'company_id,email' });
     if (linkError) throw linkError;
