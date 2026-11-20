@@ -129,7 +129,7 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
-  if (req.method !== 'POST' || req.url !== '/provision-company-admin') {
+  if (req.method !== 'POST' || (req.url !== '/provision-company-admin' && req.url !== '/provision-company-user')) {
     return send(res, 404, { error: 'NOT_FOUND' });
   }
 
