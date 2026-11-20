@@ -85,21 +85,20 @@ const server = http.createServer(async (req, res) => {
     try {
       const companyId = settingsMatch[1];
       if (req.method === 'GET') {
-        const { data, error } = await admin.from('company_branding').select('*').eq('company_id', companyId).maybeSingle();
+        const [{ data, error }, { data: company, error: companyError }] = await Promise.all([
+          admin.from('company_branding').select('*').eq('company_id', companyId).maybeSingle(),
+          admin.from('companies').select('id, name, slogan, logo_url').eq('id', companyId).single(),
+        ]);
         if (error) throw error;
-        if (data) return send(res, 200, {
-          company_id: data.company_id,
-          name: data.company_name,
-          slogan: data.company_slogan,
-          logo_url: data.company_logo,
-          hotline: data.hotline,
-          contact_email: data.email,
-          address: data.address,
-          updated_at: data.updated_at,
-        });
-        const { data: company, error: companyError } = await admin.from('companies').select('id, name, slogan, logo_url').eq('id', companyId).single();
         if (companyError) throw companyError;
-        return send(res, 200, { company_id: companyId, name: company.name, slogan: company.slogan || '', logo_url: company.logo_url || '' });
+        return send(res, 200, {
+          company_id: companyId,
+          name: company.name || data?.company_name || '',
+          slogan: data?.company_slogan ?? company.slogan ?? '',
+          logo_url: company.logo_url || data?.company_logo || '',
+          hotline: data?.hotline || '', contact_email: data?.email || company.admin_email || '',
+          address: data?.address || '', updated_at: data?.updated_at || null,
+        });
       }
 
       const body = await readBody(req);
