@@ -21,8 +21,8 @@ const send = (res, status, body) => {
     'Access-Control-Allow-Origin': origin === 'http://localhost:3001' || origin === 'http://localhost:3002' || origin === 'http://localhost:3005' || origin === 'http://localhost:5173' || origin === 'http://localhost:5174'
       ? origin
       : 'http://localhost:3001',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'content-type',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'content-type, authorization',
   });
   res.end(JSON.stringify(body));
 };
