@@ -270,7 +270,7 @@ export const usePlatformAdminStore = create<PlatformAdminStoreState>((set, get) 
       const adminUsername = comp.adminEmail.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
       const defaultPassword = comp.adminPassword || '123456';
 
-      const { data: engData } = await supabase.from('engineers').insert({
+      const { data: engData, error: engError } = await supabase.from('engineers').insert({
         company_id: newCompanyId,
         username: adminUsername,
         name: `Admin - ${comp.name}`,
@@ -285,8 +285,12 @@ export const usePlatformAdminStore = create<PlatformAdminStoreState>((set, get) 
         is_active: true,
       }).select().single();
 
-      // Đồng bộ vào auth.users để đăng nhập ngay qua Supabase Auth
-      if (engData && engData.id) {
+      if (engError) {
+        console.warn('[PlatformAdminStore] engineers profile insert skipped:', engError.message);
+      }
+
+      // Đồng bộ vào auth.users để đăng nhập ngay qua Platform Auth
+      {
         try {
           const response = await fetch('http://127.0.0.1:55400/provision-company-admin', {
             method: 'POST',

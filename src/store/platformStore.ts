@@ -179,6 +179,13 @@ export const usePlatformStore = create<PlatformStoreState>((set, get) => ({
         is_active: true,
       });
 
+      const provisionResponse = await fetch('http://127.0.0.1:55400/provision-company-admin', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ companyId: newCompanyId, email: data.adminEmail.trim().toLowerCase(), password: adminPassword, name: `Admin - ${data.name}` }),
+      });
+      const provisionResult = await provisionResponse.json();
+      if (!provisionResponse.ok || !provisionResult.ok) throw new Error(provisionResult.error || 'Không thể tạo tài khoản Admin Auth');
+
       await get().fetchData();
       return { ok: true };
     } catch (err: any) {
