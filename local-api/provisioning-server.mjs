@@ -168,6 +168,30 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
+  const auditMatch = req.url?.match(/^\/api\/v1\/companies\/([^/]+)\/audit-logs(?:\?(.*))?$/);
+  if (auditMatch && (req.method === 'GET' || req.method === 'POST')) {
+    try {
+      const companyId = auditMatch[1];
+      if (req.method === 'POST') {
+        const body = await readBody(req);
+        const { data, error } = await admin.from('platform_audit_logs').insert({
+          company_id: companyId, action: body.action || 'unknown', resource_type: body.resource_type || null,
+          resource_id: body.resource_id || null, metadata: body.metadata || {},
+        }).select('*').single();
+        if (error) throw error;
+        return send(res, 201, { log: data });
+      }
+      const query = new URLSearchParams(auditMatch[2] || '');
+      const limit = Math.min(Number(query.get('limit') || 20), 100);
+      const offset = Math.max(Number(query.get('offset') || 0), 0);
+      const { data, error } = await admin.from('platform_audit_logs').select('*', { count: 'exact' }).eq('company_id', companyId).order('created_at', { ascending: false }).range(offset, offset + limit - 1);
+      if (error) throw error;
+      return send(res, 200, { logs: data || [], total: data?.length || 0 });
+    } catch (error) {
+      return send(res, 500, { error: error?.message || 'Audit log operation failed' });
+    }
+  }
+
   if (req.method !== 'POST' || (req.url !== '/provision-company-admin' && req.url !== '/provision-company-user')) {
     return send(res, 404, { error: 'NOT_FOUND' });
   }
